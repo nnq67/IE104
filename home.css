@@ -48,7 +48,8 @@ body {
   z-index: 2;
 }
 .upcomingAuction-container {
-  padding: 96px 200px 96px 96px;
+  padding: 96px 96px 0px 96px;
+  background-color: #f4f1f1;
 }
 .upcomingAuction-container h1 {
   font-size: 35px;
@@ -64,7 +65,7 @@ body {
 .time-grid {
   display: grid;
   grid-template-columns: 90px 122px 120px;
-  grid-template-rows: 85px 85px 85px;
+  grid-template-rows: 85px 80px;
 }
 .time-grid p {
   text-align: right;
@@ -75,15 +76,10 @@ body {
   font-size: 80px;
   opacity: 50%;
 }
-.grid-upcomingAuction {
-  margin-top: 136px;
-  align-self: center;
+#grid-upcomingAuction {
   justify-items: center;
   display: grid;
-  grid: 150px / auto auto auto;
-}
-.card {
-  width: 275px;
-  height: 518px;
+  grid-template-rows: 450px 450px;
+  grid-template-columns: 33.33% 33.33% 33.33%;
 }
 /* === Home === */
