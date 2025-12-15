@@ -14,7 +14,7 @@ function updateCards() {
 
     const dot = card.querySelector(".dot");
     const text = card.querySelector(".time-text");
-    const btn = card.querySelector(".bid-btn");
+    const btn = card.querySelector("#bid-btn");
 
     dot.className = "dot";
 
@@ -71,10 +71,10 @@ testAuctions.forEach((auction) => {
   card.className = "card";
 
   card.dataset.end = auction.endTime; //truyen thoi gian end vào đây !!!
-
+  //sửa href="link tới chi tiết sản phẩm đúng"
   card.innerHTML = `
-    <div class="cardImg"><img src="./images/ea.png" /></div>
-    <h1>${Name}</h1>
+    <div class="cardImg"><a href="#"><img src="./images/ea.png" /></a></div>
+    <a href="#" class="cardName"><h1>${Name}</h1></a>
     <p>${author}</p>
     <h2>current bid: <b>${price}</b></h2>
     <hr />
@@ -82,7 +82,7 @@ testAuctions.forEach((auction) => {
         <span class="dot"></span>
         <p class="time-text"></p>
     </div>
-    <button class="bid-btn">Bid now</button>
+    <button id="bid-btn">Bid now</button>
   `;
 
   grid.appendChild(card);
