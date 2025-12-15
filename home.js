@@ -1,11 +1,9 @@
 const grid = document.getElementById("grid-upcomingAuction");
 
-let Name = "a";
+let Name = "a"; //may nay dung neo4j để lấy giá trị
 let author = "b";
 let price = "c";
-let date = "d";
-let time = "e";
-
+//----
 function updateCards() {
   const nowUTC = new Date();
 
@@ -67,12 +65,12 @@ const testAuctions = [
   // ENDED (already finished)
   { id: 5, endTime: new Date(Date.now() - 10 * 60000).toISOString() },
 ];
-
+//cho bien gi do chứa các card rồi .forEach()
 testAuctions.forEach((auction) => {
   const card = document.createElement("div");
   card.className = "card";
 
-  card.dataset.end = auction.endTime;
+  card.dataset.end = auction.endTime; //truyen thoi gian end vào đây !!!
 
   card.innerHTML = `
     <div class="cardImg"><img src="./images/ea.png" /></div>
