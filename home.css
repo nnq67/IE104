@@ -37,7 +37,7 @@
   z-index: 2;
 }
 .upcomingAuction-container {
-  padding: 96px 96px 0px 96px;
+  padding: 96px 96px 96px 96px;
   background-color: #f4f1f1;
 }
 .upcomingAuction-container h1 {
@@ -50,11 +50,13 @@
 .thongbao-container {
   display: flex;
   justify-content: space-between;
+  white-space: nowrap;
 }
 .time-grid {
   display: grid;
   grid-template-columns: 90px 122px 120px;
   grid-template-rows: 85px 80px;
+  margin-top: -20px;
 }
 .time-grid p {
   text-align: right;
@@ -66,13 +68,15 @@
   opacity: 50%;
 }
 #grid-upcomingAuction {
-  justify-items: center;
   display: grid;
-  grid-template-rows: 450px 450px;
-  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 30px;
+  justify-items: center;
 }
+
 .LoiKeuGoi {
-  margin: 50px;
+  margin: 150px;
   align-items: center;
   justify-items: center;
 }
@@ -84,7 +88,7 @@
   opacity: 50%;
 }
 #btn-home-guest {
-  margin-top: 10px;
+  margin-top: 40px;
   display: block;
   padding: 10px 20px;
   color: white;
