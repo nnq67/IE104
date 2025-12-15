@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #ffffff;
+}
+
+/* === Home === */
+.flex-banner {
+  width: 100%;
+  height: 500px;
+  background: linear-gradient(to right, #8d6b39, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+/* Text */
+.banner-text h1 {
+  color: white;
+  font-size: 90px;
+  font-weight: bold;
+  line-height: 1.1;
+  width: 550px;
+  margin-top: 200px;
+}
+/* Images stack */
+.banner-images {
+  position: relative;
+}
+/* image */
+.sword {
+  width: 900px;
+  transform: rotate(-10deg);
+}
+.badge {
+  position: absolute;
+  width: 250px;
+  height: auto;
+  top: 130px;
+  right: 210px;
+  z-index: 2;
+}
+.upcomingAuction-container {
+  padding: 96px 200px 96px 96px;
+}
+.upcomingAuction-container h1 {
+  font-size: 35px;
+}
+.upcomingAuction-container p {
+  font-size: 16px;
+  opacity: 50%;
+}
+.thongbao-container {
+  display: flex;
+  justify-content: space-between;
+}
+.time-grid {
+  display: grid;
+  grid-template-columns: 90px 122px 120px;
+  grid-template-rows: 85px 85px 85px;
+}
+.time-grid p {
+  text-align: right;
+  opacity: 100%;
+  margin-right: 10px;
+}
+#time-countdown {
+  font-size: 80px;
+  opacity: 50%;
+}
+.grid-upcomingAuction {
+  margin-top: 136px;
+  align-self: center;
+  justify-items: center;
+  display: grid;
+  grid: 150px / auto auto auto;
+}
+.card {
+  width: 275px;
+  height: 518px;
+}
+/* === Home === */
