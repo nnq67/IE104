@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Aucelot</title>
+    
+    <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .tab-content { display: block !important; }
+    </style>
+</head>
+<body>
+
+    <div id="nav-placeholder"></div>
+
+    <div class="account-hero">
+        <div class="container">
+            <h1 class="oswald-font">My account</h1>
+        </div>
+    </div>
+
+    <div class="user-bar-container">
+        <div class="container user-bar-flex">
+            <div class="user-info">
+                <div class="avatar-circle">
+                    <img src="https://via.placeholder.com/60?text=User" alt="Avatar" class="sync-avatar">
+                </div>
+                <div class="user-text">
+                    <h3 class="oswald-font sync-fullname">Pong Ton</h3> 
+                    <p class="sync-email">pongton@gm.uit.edu.vn</p>
+                </div>
+            </div>
+
+            <ul class="account-tabs">
+                <li class="tab-link active" onclick="loadTab(event, 'transaction-history.html')">Transaction History</li>
+                <li class="tab-link" onclick="loadTab(event, 'bidding-history.html')">Bidding History</li>
+                <li class="tab-link" onclick="loadTab(event, 'setting.html')">Setting</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content container">
+        <div id="tab-content-placeholder"></div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // --- DATA CENTER ---
+        const userData = {
+            firstname: "Pong",
+            lastname: "Ton",
+            email: "pongton@gm.uit.edu.vn",
+            phone: "0123456789",
+            address: "TPHCM",
+            avatar: "https://via.placeholder.com/60?text=User"
+        };
+
+        function updateUI() {
+            // Text displays
+            document.querySelectorAll('.sync-firstname').forEach(el => el.textContent = userData.firstname);
+            document.querySelectorAll('.sync-lastname').forEach(el => el.textContent = userData.lastname);
+            document.querySelectorAll('.sync-fullname').forEach(el => el.textContent = userData.firstname + " " + userData.lastname);
+            document.querySelectorAll('.sync-email').forEach(el => el.textContent = userData.email);
+            document.querySelectorAll('.sync-phone').forEach(el => el.textContent = userData.phone);
+            document.querySelectorAll('.sync-address').forEach(el => el.textContent = userData.address);
+
+            // Input values
+            document.querySelectorAll('input.sync-firstname').forEach(el => el.value = userData.firstname);
+            document.querySelectorAll('input.sync-lastname').forEach(el => el.value = userData.lastname);
+            document.querySelectorAll('input.sync-email').forEach(el => el.value = userData.email);
+            document.querySelectorAll('input.sync-phone').forEach(el => el.value = userData.phone);
+            document.querySelectorAll('input.sync-address').forEach(el => el.value = userData.address);
+            
+            // Images
+            document.querySelectorAll('.sync-avatar').forEach(el => el.src = userData.avatar);
+        }
+
+        // --- HÀM LƯU DỮ LIỆU THEO TỪNG NHÓM (NEW) ---
+        function saveBatchData(formType) {
+            if (formType === 'personal') {
+                // Lấy dữ liệu từ các input của Personal Info
+                const fn = document.getElementById('inp-p-firstname').value;
+                const ln = document.getElementById('inp-p-lastname').value;
+                const em = document.getElementById('inp-p-email').value;
+                const ph = document.getElementById('inp-p-phone').value;
+
+                // Cập nhật userData
+                userData.firstname = fn;
+                userData.lastname = ln;
+                userData.email = em;
+                userData.phone = ph;
+                
+                alert("Personal Info updated successfully!");
+            } 
+            else if (formType === 'billing') {
+                // Lấy dữ liệu Billing (Chỉ update tên họ, vì card là riêng)
+                const fn = document.getElementById('inp-b-firstname').value;
+                const ln = document.getElementById('inp-b-lastname').value;
+
+                userData.firstname = fn;
+                userData.lastname = ln;
+                
+                alert("Billing Info updated successfully!");
+            }
+            else if (formType === 'shipping') {
+                // Lấy dữ liệu Shipping
+                const fn = document.getElementById('inp-s-firstname').value;
+                const ln = document.getElementById('inp-s-lastname').value;
+                const em = document.getElementById('inp-s-email').value;
+                const ph = document.getElementById('inp-s-phone').value;
+                const ad = document.getElementById('inp-s-address').value;
+
+                userData.firstname = fn;
+                userData.lastname = ln;
+                userData.email = em;
+                userData.phone = ph;
+                userData.address = ad;
+
+                alert("Shipping Info updated successfully!");
+            }
+
+            // Sau khi cập nhật data, chạy updateUI để đồng bộ mọi chỗ
+            updateUI();
+        }
+
+        // --- LOGIC LOAD FILE ---
+        function loadComponent(file, elementId) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => { document.getElementById(elementId).innerHTML = data; })
+                .catch(error => console.error('Error:', error));
+        }
+
+        loadComponent('navigation.html', 'nav-placeholder');
+        loadComponent('footer.html', 'footer-placeholder');
+
+        function loadTab(evt, fileName) {
+            var tablinks = document.getElementsByClassName("tab-link");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            if (evt) {
+                evt.currentTarget.className += " active";
+            } else {
+                if(tablinks.length > 0) tablinks[0].className += " active";
+            }
+
+            fetch(fileName)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("tab-content-placeholder").innerHTML = data;
+                    setTimeout(updateUI, 50); 
+                })
+                .catch(error => console.error('Error loading tab:', error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            loadTab(null, 'transaction-history.html');
+            updateUI();
+        });
+
+        function showSettingSection(sectionId) {
+            const sections = document.querySelectorAll('.setting-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            const target = document.getElementById(sectionId);
+            if(target) target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
