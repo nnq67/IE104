@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aucelot - Product Detail</title>
+    
+    <link rel="stylesheet" href="navigation.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="auction.css"> 
+    <link rel="stylesheet" href="product-detail.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="./home.html"><img src="./images/logo.png" alt="Aucelot Logo" class="logo-img"></a>
+        </div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="./auction.html" class="active-link">Auction</a></li>
+                <li><a href="./appraisal.html">Appraisal</a></li>
+                <li><a href="./contact-us.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="./log-in.html" class="btn btn-logout">Logout</a>
+                <a href="./account.html" class="btn btn-account">Account</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="auction-hero">
+        <div class="container">
+            <h1>Auction</h1>
+        </div>
+    </header>
+
+    <main class="container pdp-container">
+        <div class="pdp-left">
+            <div class="main-image-frame">
+                <img id="detailImage" src="" alt="Product Image">
+            </div>
+        </div>
+
+        <div class="pdp-right">
+            <h2 id="detailTitle" class="pdp-title">Loading...</h2>
+            <p id="detailAuthor" class="pdp-author">Loading...</p>
+
+            <div class="product-description">
+                <h3>Description</h3>
+                <p id="detailDesc">No description available.</p>
+            </div>
+
+            <div id="dynamicStatusArea" class="status-area"></div>
+            
+            <hr class="divider">
+            
+             <div id="bidInputArea" style="display:none;">
+                <div class="bidding-form">
+                    <span class="currency-symbol">$</span>
+                    <input type="text" class="bid-input" id="bidAmount" value="">
+                    <button class="btn-bid-action">Bid</button>
+                </div>
+                <p class="min-bid-hint">* Minimum bid increment: $1,000</p>
+            </div>
+        </div>
+    </main>
+
+    <section class="container other-auction-section">
+        <h2 class="section-heading">Other Auction</h2>
+        <div class="auction-grid" id="relatedGrid">
+            </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <h2 class="footer-logo">Aucelot</h2>
+                <p class="address">Khu phố 6, P.Linh Trung, Q.Thủ Đức, Tp.Hồ Chí Minh</p>
+                <p class="copyright">© 2025 AUCELOT. All rights reserved</p>
+            </div>
+            <div class="footer-right">
+                <h3>subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="enter your email address">
+                    <button type="submit">Send</button>
+                </form>
+                <div class="footer-links">
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+
+    <script>
+        // 1. KHỞI TẠO TRANG
+        const params = new URLSearchParams(window.location.search);
+        const productId = parseInt(params.get('id'));
+        
+        // Tìm sản phẩm trong DB (biến products từ products.js)
+        let product = null;
+        if(typeof products !== 'undefined') {
+            product = products.find(p => p.id === productId);
+        } else {
+            console.error("products.js not loaded");
+        }
+        
+        // DOM Elements
+        const statusArea = document.getElementById('dynamicStatusArea');
+        const bidArea = document.getElementById('bidInputArea');
+
+        // Hàm format ngày
+        const formatD = (d) => d.toLocaleString('en-GB').replace(',', '');
+
+        if (product) {
+            // Điền thông tin cơ bản
+            document.getElementById('detailImage').src = product.img;
+            document.getElementById('detailTitle').innerText = product.title;
+            document.getElementById('detailAuthor').innerText = "by " + product.author;
+            document.getElementById('detailDesc').innerText = product.desc; 
+            document.title = "Aucelot - " + product.title;
+
+            // Parse Date
+            const startDate = new Date(product.startTime);
+            const endDate = new Date(product.endTime);
+
+            if (product.type === 'current') {
+                // Current: Đếm ngược tới END TIME
+                renderCurrent(product, endDate);
+            } else if (product.type === 'upcoming') {
+                // Upcoming: Đếm ngược tới START TIME
+                renderUpcoming(product, startDate);
+            } else {
+                renderEnded(product);
+            }
+
+            //hiển thị random 4 products ở dưới
+            const related = products.filter(p => p.id !== productId)
+                                      .sort(() => 0.5 - Math.random())
+                                      .slice(0, 4);
+            renderRelated(related);
+
+        } else {
+            document.querySelector('.pdp-right').innerHTML = "<h2>Product not found</h2><a href='auction.html'>Back to Auction</a>";
+        }
+
+        // --- HÀM RENDER ---
+        function renderCurrent(p, targetDate) {
+            statusArea.innerHTML = `
+                <div class="price-section">
+                    <span class="p-label">current bid:</span>
+                    <span class="p-value green">$${p.price}</span>
+                </div>
+                <div class="timer-section">
+                    <p class="timer-label">Time left to end auction:</p>
+                    <div class="countdown-box" id="countdown"></div>
+                    <p class="start-date">Auction ends: ${formatD(targetDate)} GMT+8</p>
+                </div>
+            `;
+            bidArea.style.display = 'block';
+            document.getElementById('bidAmount').placeholder = "Enter amount > " + p.price;
+            startTimer(targetDate);
+        }
+
+        function renderUpcoming(p, targetDate) {
+            statusArea.innerHTML = `
+                <p class="upcoming-msg">This auction has not been started yet</p>
+                <div class="timer-section">
+                    <p class="timer-label">Time left to start auction:</p>
+                    <div class="countdown-box" id="countdown"></div>
+                    <p class="start-date">Auction starts: ${formatD(targetDate)} GMT+8</p>
+                </div>
+            `;
+            startTimer(targetDate);
+        }
+
+        function renderEnded(p) {
+            statusArea.innerHTML = `
+                <div class="price-section">
+                    <span class="p-label">hammer price:</span>
+                    <span class="p-value red">$${p.price}</span>
+                </div>
+                <div class="ended-line">
+                    <hr>
+                    <p style="color:red; font-style:italic; margin-top:10px;">This auction has ended</p>
+                </div>
+            `;
+        }
+
+        function renderRelated(list) {
+            const grid = document.getElementById('relatedGrid');
+            list.forEach(p => {
+                // Xác định màu dot
+                let dotClass = 'orange';
+                if(p.type === 'current') dotClass = 'green';
+                if(p.type === 'ended') dotClass = 'red';
+
+                // Xác định giá hiển thị
+                let priceDisplay = (p.type === 'upcoming') ? '-' : '$' + p.price;
+                let labelDisplay = (p.type === 'ended') ? 'hammer price:' : 'current bid:';
+
+                const html = `
+                <div class="product-card">
+                    <div class="card-img">
+                        <a href="product-detail.html?id=${p.id}"><img src="${p.img}"></a>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">${p.title}</h3>
+                        <p class="product-author">by ${p.author}</p>
+                        <div class="price-row"><span class="price-label">${labelDisplay}</span> <span class="price-value">${priceDisplay}</span></div>
+                        <div class="status-row"><span class="status-dot dot-${dotClass}"></span> <span class="status-text">${p.type}</span></div>
+                        <a href="product-detail.html?id=${p.id}" class="btn-card">View</a>
+                    </div>
+                </div>`;
+                grid.innerHTML += html;
+            });
+        }
+
+        // --- TIMER ---
+        function startTimer(targetDate) {
+            const timerEl = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    timerEl.innerHTML = "EXPIRED";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerEl.innerHTML = `
+                    <div class="t-box"><span class="num">${pad(days)}</span><span class="txt">days</span></div>
+                    <div class="t-box"><span class="num">${pad(hours)}</span><span class="txt">hours</span></div>
+                    <div class="t-box"><span class="num">${pad(minutes)}</span><span class="txt">minutes</span></div>
+                    <div class="t-box"><span class="num">${pad(seconds)}</span><span class="txt">seconds</span></div>
+                `;
+            }, 1000);
+        }
+        function pad(n) { return n < 10 ? '0' + n : n; }
+    </script>
+</body>
+</html>
