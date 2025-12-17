@@ -231,7 +231,7 @@ const products = [
         id: 20, 
         title: "Composition VIII", 
         author: "Wassily Kandinsky", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Kandinsky_-_Komposition_8.jpg/1200px-Kandinsky_-_Komposition_8.jpg",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG24gdp0s1dVf1YKPFHN45QfhwXJl8New22g&s",
         price: "28,000,000", 
         type: "ended", 
         startTime: "2023-08-01T00:00:00",
