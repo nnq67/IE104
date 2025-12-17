@@ -217,7 +217,7 @@ function showShit(Auth) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", (Auth) => {
-  Auth = 1;
+document.addEventListener("DOMContentLoaded", () => {
+  let Auth = auth;
   showShit(Auth);
 });
