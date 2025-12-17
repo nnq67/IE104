@@ -46,17 +46,16 @@ body {
 /* --- USER INFO BAR & TABS --- */
 .user-bar-container {
     background-color: #fff;
-    /* Shadow nhẹ phía dưới để tách biệt nội dung */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     margin-bottom: 40px;
-    border-bottom: 1px solid #eee; /* Đường viền mờ dưới cùng */
+    border-bottom: 1px solid #eee;
 }
 
 .user-bar-flex {
     display: flex;
     align-items: center;
-    padding: 15px 0; /* Độ cao của thanh trắng */
-    height: 90px; /* Cố định chiều cao cho đều */
+    padding: 15px 0;
+    height: 90px;
 }
 
 /* --- PHẦN TRÁI: AVATAR + TÊN --- */
@@ -67,23 +66,23 @@ body {
     
     /* Tạo đường gạch dọc ngăn cách */
     border-right: 2px solid #ccc; 
-    padding-right: 50px; /* Khoảng cách từ Email đến đường kẻ */
-    margin-right: 50px;  /* Khoảng cách từ đường kẻ đến Tab đầu tiên */
+    padding-right: 50px;
+    margin-right: 50px;
     
-    height: 70%; /* Chiều cao đường kẻ so với thanh cha */
-    min-width: max-content; /* Đảm bảo tên dài không bị xuống dòng */
+    height: 70%;
+    min-width: max-content;
 }
 
 .avatar-circle {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background-color: #777; /* Màu xám giống hình placeholder */
+    background-color: #777;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0; /* Không cho avatar bị bóp méo */
+    flex-shrink: 0;
 }
 
 .avatar-circle img {
@@ -100,16 +99,16 @@ body {
 
 .user-text h3 {
     font-size: 20px;
-    font-weight: 700; /* Đậm hơn */
+    font-weight: 700;
     margin: 0;
     color: #000;
     line-height: 1.2;
-    text-transform: none; /* Tên người dùng không cần viết hoa hết */
+    text-transform: none;
 }
 
 .user-text p {
     font-size: 13px;
-    color: #999; /* Màu xám nhạt cho email */
+    color: #999;
     margin-top: 4px;
     font-family: 'Roboto', sans-serif;
 }
@@ -119,7 +118,7 @@ body {
     display: flex;
     list-style: none;
     align-items: center;
-    flex-grow: 1; /* Chiếm hết phần không gian còn lại */
+    flex-grow: 1;
     
     /* QUAN TRỌNG: Đẩy 3 tab ra 3 vị trí: Trái - Giữa - Phải */
     justify-content: space-between; 
@@ -146,7 +145,7 @@ body {
 
 /* Style cho Tab đang chọn (Active) */
 .tab-link.active {
-    font-weight: 700; /* Chữ đậm lên giống hình */
+    font-weight: 700;
     color: #000;
 }
 
@@ -295,8 +294,6 @@ body {
     text-decoration: none;
     font-size: 16px;
 }
-/* --- GIỮ NGUYÊN CODE CŨ TỪ ĐÂY TRỞ LÊN --- */
-/* (Dán đè hoặc thêm đoạn dưới này vào cuối file account.css) */
 
 /* --- SETTING FORMS STYLES (NEW) --- */
 
@@ -358,7 +355,7 @@ body {
     cursor: pointer;
     transition: background 0.3s;
     margin-top: 20px;
-    float: right; /* Đẩy nút sang phải */
+    float: right;
 }
 
 .btn-update-large:hover {
@@ -367,12 +364,12 @@ body {
 
 /* Clear float sau khi dùng nút update */
 .form-actions {
-    overflow: hidden; /* Hack để bao nút float */
+    overflow: hidden;
     margin-top: 10px;
 }
 
 .form-input {
-    flex: 1; /* Chiếm hết chiều rộng còn lại */
+    flex: 1;
     padding: 10px 15px;
     border: 1px solid #777;
     font-size: 16px;
@@ -431,7 +428,7 @@ body {
 .card-logo {
     font-weight: 900;
     font-size: 20px;
-    color: #1a1f71; /* Màu xanh Visa */
+    color: #1a1f71;
     font-style: italic;
     margin-right: 20px;
 }
@@ -473,17 +470,165 @@ body {
 
 /* Ẩn hiện các section trong Setting */
 .setting-section {
-    display: none; /* Mặc định ẩn */
+    display: none;
     animation: fadeIn 0.3s;
 }
 
 .setting-section.active {
-    display: block; /* Chỉ hiện khi có class active */
+    display: block;
 }
+
+/* --- BUTTONS STYLES --- */
+.btn-view-small {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid #333;
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.btn-view-small:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* --- ORDER DETAIL STYLES --- */
+.order-detail-header {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.order-detail-header h2 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.order-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: #555;
+    margin: 0;
+}
+
+.order-meta {
+    margin-bottom: 30px;
+}
+
+.meta-row {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.meta-label {
+    font-weight: 700;
+    margin-right: 10px;
+    color: #000;
+    display: inline-block;
+    width: 60px;
+}
+
+.no-border-top th {
+    border-top: none;
+    background-color: #f9f9f9;
+}
+
+/* Summary Box */
+.order-summary {
+    width: 100%;
+    max-width: 350px;
+    margin-left: auto;
+    margin-top: 20px;
+    background-color: #fcfcfc;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.summary-row.total {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+}
+
+/* Info Grid (Address & Payment) */
+.order-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.info-box h4 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.info-box p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.payment-display {
+    display: flex;
+    align-items: center;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+/* --- ADMIN DATABASE BUTTON --- */
+.btn-database {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: background 0.3s;
+    width: fit-content;
+    border: 1px solid #2c3e50;
+}
+
+.btn-database:hover {
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+.btn-database i {
+    margin-right: 5px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .settings-grid { grid-template-columns: 1fr; }
     .user-bar-flex { flex-direction: column; align-items: flex-start; gap: 20px; }
     .user-info { border-right: none; }
     .account-tabs { margin-left: 0; gap: 20px; font-size: 14px; }
+    .order-info-grid { grid-template-columns: 1fr; }
 }

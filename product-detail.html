@@ -109,7 +109,7 @@
         const params = new URLSearchParams(window.location.search);
         const productId = parseInt(params.get('id'));
         
-        // Tìm sản phẩm trong DB (biến products từ products.js)
+        // Tìm sản phẩm trong DB
         let product = null;
         if(typeof products !== 'undefined') {
             product = products.find(p => p.id === productId);
@@ -125,14 +125,12 @@
         const formatD = (d) => d.toLocaleString('en-GB').replace(',', '');
 
         if (product) {
-            // Điền thông tin cơ bản
             document.getElementById('detailImage').src = product.img;
             document.getElementById('detailTitle').innerText = product.title;
             document.getElementById('detailAuthor').innerText = "by " + product.author;
             document.getElementById('detailDesc').innerText = product.desc; 
             document.title = "Aucelot - " + product.title;
 
-            // Parse Date
             const startDate = new Date(product.startTime);
             const endDate = new Date(product.endTime);
 

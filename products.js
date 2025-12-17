@@ -8,7 +8,8 @@ const products = [
         type: "current", 
         startTime: "2024-01-01T00:00:00",
         endTime: "2026-02-14T12:00:00",
-        desc: "The Mona Lisa is a half-length portrait painting by Italian artist Leonardo da Vinci."
+        desc: "The Mona Lisa is a half-length portrait painting by Italian artist Leonardo da Vinci.",
+        userBid: "90,000,000"
     },
     {
         id: 2, 
@@ -19,7 +20,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-05-14T10:00:00",
         endTime: "2026-05-20T10:00:00",
-        desc: "The Weeping Woman is an oil on canvas painting by Pablo Picasso, created in France in 1937."
+        desc: "The Weeping Woman is an oil on canvas painting by Pablo Picasso, created in France in 1937.",
+        userBid: null
     },
     {
         id: 3, 
@@ -30,7 +32,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-06-08T10:00:00",
         endTime: "2026-06-15T10:00:00",
-        desc: "The Raft of the Medusa is an oil painting of 1818–19 by the French Romantic painter Théodore Géricault."
+        desc: "The Raft of the Medusa is an oil painting of 1818–19 by the French Romantic painter Théodore Géricault.",
+        userBid: null
     },
     {
         id: 4, 
@@ -41,7 +44,8 @@ const products = [
         type: "current", 
         startTime: "2024-12-01T10:00:00",
         endTime: "2026-01-20T10:00:00",
-        desc: "The Coronation of Napoleon is a painting completed in 1807 by Jacques-Louis David."
+        desc: "The Coronation of Napoleon is a painting completed in 1807 by Jacques-Louis David.",
+        userBid: "35,000,000"
     },
     {
         id: 5, 
@@ -52,7 +56,8 @@ const products = [
         type: "current", 
         startTime: "2024-11-15T12:00:00",
         endTime: "2026-03-15T12:00:00",
-        desc: "The Death of Sardanapalus is an oil painting on canvas by Eugène Delacroix, dated 1827."
+        desc: "The Death of Sardanapalus is an oil painting on canvas by Eugène Delacroix, dated 1827.",
+        userBid: "68,000,000"
     },
     {
         id: 6, 
@@ -63,7 +68,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-05-14T10:00:00",
         endTime: "2026-05-21T10:00:00",
-        desc: "The Scream is the popular name given to a composition created by Norwegian expressionist artist Edvard Munch."
+        desc: "The Scream is the popular name given to a composition created by Norwegian expressionist artist Edvard Munch.",
+        userBid: null
     },
     {
         id: 7, 
@@ -74,7 +80,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-09-05T10:00:00",
         endTime: "2026-09-12T10:00:00",
-        desc: "The Starry Night is an oil on canvas painting by Dutch Post-Impressionist painter Vincent van Gogh."
+        desc: "The Starry Night is an oil on canvas painting by Dutch Post-Impressionist painter Vincent van Gogh.",
+        userBid: null
     },
     {
         id: 8, 
@@ -85,7 +92,8 @@ const products = [
         type: "ended", 
         startTime: "2023-12-01T00:00:00",
         endTime: "2024-01-01T00:00:00",
-        desc: "Guernica is a large 1937 oil painting on canvas by Spanish artist Pablo Picasso."
+        desc: "Guernica is a large 1937 oil painting on canvas by Spanish artist Pablo Picasso.",
+        userBid: "35,000,000"
     },
     {
         id: 9, 
@@ -96,7 +104,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-09-06T10:00:00",
         endTime: "2026-09-15T10:00:00",
-        desc: "The Kiss is an oil-on-canvas painting with added gold leaf, silver and platinum by Gustav Klimt."
+        desc: "The Kiss is an oil-on-canvas painting with added gold leaf, silver and platinum by Gustav Klimt.",
+        userBid: null
     },
     {
         id: 10, 
@@ -107,7 +116,8 @@ const products = [
         type: "ended", 
         startTime: "2023-11-01T00:00:00",
         endTime: "2024-01-01T00:00:00",
-        desc: "Girl with a Pearl Earring is an oil painting by Dutch Golden Age painter Johannes Vermeer."
+        desc: "Girl with a Pearl Earring is an oil painting by Dutch Golden Age painter Johannes Vermeer.",
+        userBid: "32,000,000"
     },
     {
         id: 11, 
@@ -118,7 +128,8 @@ const products = [
         type: "current", 
         startTime: "2025-01-01T00:00:00",
         endTime: "2026-09-14T12:00:00",
-        desc: "Las Meninas is a 1656 painting in the Museo del Prado in Madrid, by Diego Velázquez."
+        desc: "Las Meninas is a 1656 painting in the Museo del Prado in Madrid, by Diego Velázquez.",
+        userBid: null
     },
     {
         id: 12, 
@@ -129,7 +140,8 @@ const products = [
         type: "current", 
         startTime: "2025-01-10T00:00:00",
         endTime: "2026-01-30T18:00:00",
-        desc: "The Birth of Venus is a painting by the Italian artist Sandro Botticelli."
+        desc: "The Birth of Venus is a painting by the Italian artist Sandro Botticelli.",
+        userBid: "120,000,000"
     },
     {
         id: 13, 
@@ -140,7 +152,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-07-22T09:00:00",
         endTime: "2026-07-30T09:00:00",
-        desc: "The Night Watch is a 1642 painting by Rembrandt van Rijn."
+        desc: "The Night Watch is a 1642 painting by Rembrandt van Rijn.",
+        userBid: null
     },
     {
         id: 14, 
@@ -151,7 +164,8 @@ const products = [
         type: "ended", 
         startTime: "2023-10-01T00:00:00",
         endTime: "2023-12-31T00:00:00",
-        desc: "The Creation of Adam is a fresco painting by Italian artist Michelangelo."
+        desc: "The Creation of Adam is a fresco painting by Italian artist Michelangelo.",
+        userBid: "200,000,000"
     },
     {
         id: 15, 
@@ -162,7 +176,8 @@ const products = [
         type: "current", 
         startTime: "2025-02-01T00:00:00",
         endTime: "2026-02-28T14:00:00",
-        desc: "American Gothic is a 1930 painting by Grant Wood."
+        desc: "American Gothic is a 1930 painting by Grant Wood.",
+        userBid: "40,000,000"
     },
     {
         id: 16, 
@@ -173,7 +188,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-10-10T08:00:00",
         endTime: "2026-10-17T08:00:00",
-        desc: "Café Terrace at Night is an 1888 oil painting by the Dutch artist Vincent van Gogh."
+        desc: "Café Terrace at Night is an 1888 oil painting by the Dutch artist Vincent van Gogh.",
+        userBid: null
     },
     {
         id: 17, 
@@ -184,7 +200,8 @@ const products = [
         type: "ended", 
         startTime: "2023-11-01T00:00:00",
         endTime: "2023-11-20T00:00:00",
-        desc: "The Great Wave off Kanagawa is a woodblock print by the Japanese ukiyo-e artist Hokusai."
+        desc: "The Great Wave off Kanagawa is a woodblock print by the Japanese ukiyo-e artist Hokusai.",
+        userBid: "10,000,000"
     },
     {
         id: 18, 
@@ -195,7 +212,8 @@ const products = [
         type: "current", 
         startTime: "2025-03-01T00:00:00",
         endTime: "2026-04-15T16:30:00",
-        desc: "Arrangement in Grey and Black No. 1, best known under its colloquial name Whistler's Mother."
+        desc: "Arrangement in Grey and Black No. 1, best known under its colloquial name Whistler's Mother.",
+        userBid: null
     },
     {
         id: 19, 
@@ -206,7 +224,8 @@ const products = [
         type: "upcoming", 
         startTime: "2026-12-01T10:00:00",
         endTime: "2026-12-08T10:00:00",
-        desc: "A Sunday Afternoon on the Island of La Grande Jatte is painted in 1884, is Georges Seurat's most famous work."
+        desc: "A Sunday Afternoon on the Island of La Grande Jatte is painted in 1884, is Georges Seurat's most famous work.",
+        userBid: null
     },
     {
         id: 20, 
@@ -217,6 +236,7 @@ const products = [
         type: "ended", 
         startTime: "2023-08-01T00:00:00",
         endTime: "2023-08-15T00:00:00",
-        desc: "Composition VIII, produced in 1923 by Russian artist Wassily Kandinsky."
+        desc: "Composition VIII, produced in 1923 by Russian artist Wassily Kandinsky.",
+        userBid: "28,000,000"
     }
 ];

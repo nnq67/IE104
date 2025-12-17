@@ -65,7 +65,7 @@
 
 /* --- PRICE & STATUS --- */
 .status-area {
-    min-height: 150px; /* Giữ khung cố định tránh nhảy layout */
+    min-height: 150px;
 }
 
 .price-section { margin-bottom: 20px; font-size: 24px; }
