@@ -58,3 +58,114 @@
       color: red;
       border: 1px solid #aaa;
     }
+    /* Trong file add-item.css */
+
+/* Khung nền mờ */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Hộp thoại chính */
+.modal-content {
+  background-color: white;
+  margin: 5vh auto;
+  width: 500px;
+  max-height: 80vh; /* Chiều cao tối đa 80% màn hình */
+  border-radius: 12px;
+  position: relative;
+  display: flex;        /* Sử dụng Flexbox */
+  flex-direction: column; /* Xếp theo chiều dọc */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Tiêu đề đứng yên */
+.modal-content h2 {
+  margin: 0;
+  padding: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* Nút X thoát hộp thoại */
+.close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 35px; /* Làm to hơn */
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+}
+
+.close:hover {
+  color: #ff4747;
+}
+
+/* Vùng chứa danh sách - Chỉ vùng này được cuộn */
+#categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto; /* Kích hoạt cuộn riêng cho danh sách */
+  flex-grow: 1;    /* Chiếm toàn bộ không gian còn lại */
+}
+
+#categoryList li {
+  padding: 15px 40px; /* Tăng 40px để đẩy chữ qua phải nhiều hơn */
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 18px;
+  display: flex;       /* Dùng flex để căn chỉnh ID và Tên */
+  gap: 15px;           /* Khoảng cách giữa số ID và Tên chữ */
+}
+
+#categoryList li strong {
+  color: #5a431c;      /* Làm nổi bật mã ID (ví dụ C01) */
+  min-width: 40px;     /* Giữ cho các mã ID thẳng hàng dọc */
+}
+
+#categoryList li:hover {
+  background-color: #fff5f5;
+  color: #ff4747;
+  padding-left: 50px;  /* Khi hover thì đẩy nhẹ thêm 10px nữa cho sinh động */
+}
+
+#categoryList li:last-child {
+  border-bottom: none;
+}
+
+#categoryList li:hover {
+  background-color: #fff5f5;
+  color: #ff4747;
+  padding-left: 30px; /* Hiệu ứng đẩy nhẹ khi hover */
+}
+.category-group {
+  display: flex;
+  gap: 10px;           /* Khoảng cách giữa ô input và nút bấm */
+  margin-bottom: 22px; /* Khoảng cách với ô bên dưới */
+}
+
+.category-group input {
+  margin-bottom: 0;    /* Khử margin mặc định để thẳng hàng với nút */
+  background-color: #f9f9f9; /* Làm nền hơi xám vì là ô readonly */
+}
+
+.btn-select {
+  background: black;
+  color: white;
+  white-space: nowrap; /* Không cho chữ trong nút bị nhảy dòng */
+  padding: 0 20px;
+}
+
+.btn-select:hover {
+  background: #3e2e13;
+}
