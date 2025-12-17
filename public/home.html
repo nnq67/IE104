@@ -32,7 +32,9 @@
             <ul class="nav-links">
               <li><a href="./home.html">Home</a></li>
               <li><a href="./auction.html">Auction</a></li>
-              <li><a href="./appraisal.html">Appraisal</a></li>
+              <li class="admin-view" style="display: none">
+                <a href="./appraisal.html">Appraisal</a>
+              </li>
               <li><a href="./contact-us.html">Contact Us</a></li>
             </ul>
             <div class="nav-buttons">
@@ -68,21 +70,24 @@
         <div class="thongbao-container">
           <div>
             <h1 class="big-title">AUCTION IS COMING SOON</h1>
-            <p class="smaldesc">Our public sale event will be held on [Date]</p>
+            <p class="smaldesc" id="smallD"></p>
           </div>
           <div class="time-grid">
-            <h1 id="time-countdown">80</h1>
-            <h1 id="time-countdown">/45</h1>
-            <h1 id="time-countdown">/12</h1>
+            <h1
+              id="hour"
+              class="time-countdown"
+              style="text-align: right; margin-right: 5px"
+            ></h1>
+            <h1 id="minute" class="time-countdown"></h1>
+            <h1 id="second" class="time-countdown"></h1>
             <p>hours</p>
             <p>minutes</p>
             <p>seconds</p>
           </div>
         </div>
-        <div id="grid-upcomingAuction" class="auction-grid"></div>
-        <div class="tab-line"></div>
+        <div id="grid-upcomingAuction"></div>
       </div>
-
+      <div class="tab-line"></div>
       <div class="LoiKeuGoi guest-view">
         <h1>WE DON'T WANT TO LET YOU DOWN</h1>
         <p>

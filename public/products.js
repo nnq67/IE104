@@ -18,7 +18,7 @@ const products = [
     img: "https://media.tate.org.uk/art/images/work/T/T05/T05010_9.jpg",
     price: "-",
     type: "upcoming",
-    startTime: "2026-05-14T10:00:00",
+    startTime: "2026-12-29T10:00:00",
     endTime: "2026-05-20T10:00:00",
     desc: "The Weeping Woman is an oil on canvas painting by Pablo Picasso, created in France in 1937.",
     userBid: null,

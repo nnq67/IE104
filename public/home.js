@@ -79,3 +79,50 @@ document.addEventListener("DOMContentLoaded", (Auth) => {
   Auth = 1;
   showShit(Auth);
 });
+
+const earliestTime = Math.min(
+  ...products.map((p) => new Date(p.startTime).getTime())
+);
+const earliestDate = new Date(earliestTime);
+
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = earliestTime - now;
+
+  // 2. The Math Logic
+  // Hours: Total milliseconds divided by (ms * sec * min)
+  const hours = Math.floor(distance / (1000 * 60 * 60));
+
+  // Minutes: Remainder of hours, divided by (ms * sec)
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+  // Seconds: Remainder of minutes, divided by (ms)
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // 3. Update the UI
+  document.getElementById("hour").innerHTML = hours;
+  document.getElementById("minute").innerHTML =
+    "/" + minutes.toString().padStart(2, "0");
+  document.getElementById("second").innerHTML =
+    "/" + seconds.toString().padStart(2, "0");
+
+  // Handle expiration
+  if (distance < 0) {
+    clearInterval(timer);
+    document.getElementById("hour").innerHTML = "0";
+    document.getElementById("minute").innerHTML = "00";
+    document.getElementById("second").innerHTML = "00";
+  }
+}, 1000);
+
+function formatDMY(date) {
+  const d = date.getDate();
+  const m = date.getMonth() + 1;
+  const y = date.getFullYear();
+  return `${d}/${m}/${y}`;
+}
+
+const smallD = document.getElementById("smallD");
+smallD.innerHTML = `The upcoming auction will be held on ${formatDMY(
+  earliestDate
+)}.`;
