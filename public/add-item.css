@@ -1,0 +1,60 @@
+    * {
+      box-sizing: border-box;
+      font-family: 'Oswald', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+    }
+
+    .header {
+      background: #5a431c;
+      padding: 22px 0;
+      text-align: center;
+      color: white;
+      font-size: 26px;
+    }
+
+    .container {
+      width: 600px;
+      margin: 40px auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 22px;
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-add {
+      background: black;
+      color: white;
+    }
+
+    .btn-cancel {
+      background: #e5e5e5;
+      color: red;
+      border: 1px solid #aaa;
+    }

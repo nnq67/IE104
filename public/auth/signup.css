@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #fff0dc;
+}
+
+.signup-container {
+  margin: 5% 0 4%;
+  justify-self: center;
+  border-radius: 25px;
+  padding: 30px 50px;
+  background-color: white;
+  position: relative;
+}
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.avatar {
+  text-align: center;
+}
+.signup-form h1,
+p {
+  text-align: center;
+}
+
+.back {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  left: 20px;
+}
+
+.signup-form p {
+  margin: 5px 0 10px 0;
+}
+
+.signup-form input {
+  width: 400px;
+  margin: 10px 0;
+  height: 54px;
+  padding-left: 20px;
+  border: 2px solid black;
+  font-size: 16px;
+}
+
+.NameInput {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.NameInput input {
+  width: 195px;
+}
+
+#signup-btn {
+  display: block;
+  justify-self: center;
+  align-self: center;
+  width: 200px;
+  height: 50px;
+  padding: 5px 0;
+  border-radius: 5px;
+  background-color: #543a14;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  color: white;
+  font-size: 20px;
+  margin: 10px 0;
+}
