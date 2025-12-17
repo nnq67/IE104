@@ -1,10 +1,35 @@
+import { products } from "./products2.js";
+import { showShit } from "./showscreen.js";
+function getStatusInfo(product) {
+  let color = "green";
+  let labelText = "";
+
+  const formatD = (dateString) => {
+    const d = new Date(dateString);
+    return d.toLocaleString("en-GB").replace(",", "");
+  };
+
+  if (product.type === "current") {
+    // Đang diễn ra => Hiển thị khi nào KẾT THÚC
+    color = "green";
+    labelText = `auction ends in: ${formatD(product.endTime)} GMT+8`;
+  } else if (product.type === "upcoming") {
+    // Sắp diễn ra => Hiển thị khi nào BẮT ĐẦU
+    color = "orange";
+    labelText = `auction start in: ${formatD(product.startTime)} GMT+8`;
+  } else {
+    // Đã kết thúc
+    color = "red";
+    labelText = "This auction has ended";
+  }
+
+  return { color, labelText };
+}
+
 const grid = document.getElementById("grid-upcomingAuction");
+const p = products;
 
-products.slice(0, 8).forEach((product) => {
-  renderOneCard(product);
-});
-
-function renderOneCard(product) {
+p.slice(0, 8).forEach((product) => {
   const card = document.createElement("div");
 
   let displayPrice = product.price !== "-" ? `$${product.price}` : "-";
@@ -43,47 +68,14 @@ function renderOneCard(product) {
   `;
 
   grid.appendChild(card);
-}
+});
 
 // Auth:
 // -1 = admin
 //  1 = user
 //  0 = guest
 
-let Auth = 0;
-
-document.addEventListener("DOMContentLoaded", () => {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-
-  function showUserHome() {
-    userViews.forEach((el) => (el.style.display = "block"));
-    guestViews.forEach((el) => (el.style.display = "none"));
-    adminViews.forEach((el) => (el.style.display = "none"));
-  }
-
-  function showGuestHome() {
-    guestViews.forEach((el) => (el.style.display = "block"));
-    userViews.forEach((el) => (el.style.display = "none"));
-    adminViews.forEach((el) => (el.style.display = "none"));
-  }
-
-  function showAdminHome() {
-    adminViews.forEach((el) => (el.style.display = "block"));
-    userViews.forEach((el) => (el.style.display = "none"));
-    guestViews.forEach((el) => (el.style.display = "none"));
-  }
-
-  function showShit() {
-    if (Auth === -1) {
-      showAdminHome();
-    } else if (Auth === 1) {
-      showUserHome();
-    } else {
-      showGuestHome();
-    }
-  }
-
-  showShit();
+document.addEventListener("DOMContentLoaded", (Auth) => {
+  Auth = 1;
+  showShit(Auth);
 });

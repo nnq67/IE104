@@ -12,6 +12,8 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+
+    <script src="home.js" type="module"></script>
   </head>
   <body>
     <header>
@@ -81,7 +83,7 @@
         <div class="tab-line"></div>
       </div>
 
-      <div class="LoiKeuGoi">
+      <div class="LoiKeuGoi guest-view">
         <h1>WE DON'T WANT TO LET YOU DOWN</h1>
         <p>
           Get notify to our public mint sale event, make sure you didn't miss
@@ -89,6 +91,13 @@
         </p>
         <a href="./auth/signup.html"
           ><button id="btn-home-guest">Sign up now</button></a
+        >
+      </div>
+      <div class="LoiKeuGoi user-view" style="display: none">
+        <h1>DON'T MISS OUT ON NEXT AUCTION</h1>
+        <p>Bid now. Get stuff for a reasonable price.</p>
+        <a href="./auction.html"
+          ><button id="btn-home-guest">Bid now</button></a
         >
       </div>
     </main>
@@ -121,6 +130,3 @@
     </footer>
   </body>
 </html>
-<script src="auction.js"></script>
-<script src="products.js"></script>
-<script src="home.js"></script>
