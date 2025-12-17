@@ -74,10 +74,10 @@ body {
 }
 #grid-upcomingAuction {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, auto);
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  justify-items: center;
+  margin-bottom: 60px;
+  min-height: 400px;
 }
 
 .LoiKeuGoi {
