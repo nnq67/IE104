@@ -1,0 +1,311 @@
+/* --- HERO SECTION --- */
+.auction-hero {
+    background: linear-gradient(90deg, #543A14 0%, #D49B55 50%, #FFFFFF 100%);
+    height: 150px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.auction-hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 60px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* --- TABS SECTION --- */
+.auction-tabs-wrapper {
+    margin-bottom: 40px;
+}
+
+.auction-tabs {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+.tab-item {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding-bottom: 10px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.tab-item:hover {
+    color: #555;
+}
+
+.tab-item.active {
+    color: #000;
+    font-weight: 500;
+}
+
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #000;
+}
+
+.tab-line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin-top: -1px;
+    z-index: -1;
+}
+
+/* --- CONTROLS: SEARCH & SORT --- */
+.auction-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.search-box {
+    position: relative;
+    width: 400px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 40px;
+    background-color: #FEF3E2;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px;
+    color: #555;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+}
+
+.sort-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.sort-dropdown {
+    padding: 8px 15px;
+    border: 1px solid #333;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+/* --- PRODUCT GRID --- */
+.auction-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 60px;
+    min-height: 400px;
+}
+
+/* --- PRODUCT CARD STYLES --- */
+.product-card {
+    background: #fff;
+    transition: transform 0.3s;
+    animation: fadeIn 0.5s;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.product-card:hover .card-img img {
+    transform: scale(1.05);
+}
+
+.product-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-author {
+    font-size: 13px;
+    color: #000;
+    font-style: italic;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.price-row {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.price-label {
+    font-weight: 400;
+}
+
+.price-value {
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    min-height: 20px;
+}
+
+/* Các loại dấu chấm màu */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.dot-green { background-color: #6CC04A; }
+.dot-orange { background-color: #EBA636; }
+.dot-red { background-color: #D32F2F; }
+
+.status-text {
+    font-size: 10px;
+    color: #333;
+    font-style: italic;
+    line-height: 1.2;
+}
+
+/* Nút bấm Bid now */
+.btn-card {
+    display: inline-block;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid #555;
+    padding: 6px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: fit-content;
+}
+
+.btn-card:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* --- PAGINATION --- */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.page-link {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.page-link:hover {
+    background-color: #eee;
+}
+
+.page-link.active {
+    background-color: #333;
+    color: #fff;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .auction-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .auction-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+
+    .auction-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .auction-tabs {
+        font-size: 18px;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auction-grid {
+        grid-template-columns: 1fr;
+    }
+}

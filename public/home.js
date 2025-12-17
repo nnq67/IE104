@@ -88,40 +88,4 @@ testAuctions.forEach((auction) => {
   grid.appendChild(card);
 });
 
-//auth
-//0, 1, -1
-
-let Auth = 0;
-
-document.addEventListener("DOMContentLoaded", checkLoginStatus);
-const userViews = document.querySelectorAll(".user-view");
-const guestViews = document.querySelectorAll(".guest-view");
-function showUserHome() {
-  userViews.forEach((el) => {
-    el.style.display = "block";
-  });
-
-  guestViews.forEach((el) => {
-    el.style.display = "none";
-  });
-}
-function showGuestHome() {
-  userViews.forEach((el) => {
-    el.style.display = "none";
-  });
-
-  guestViews.forEach((el) => {
-    el.style.display = "block";
-  });
-}
-function showAdminHome() {}
-
-function showShit() {
-  if (Auth === -1) {
-    showAdminHome();
-  } else if (Auth === 1) {
-    showUserHome();
-  } else showGuestHome();
-}
-showShit();
 updateCards();

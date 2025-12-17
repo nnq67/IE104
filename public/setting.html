@@ -1,0 +1,203 @@
+<div class="tab-content">
+    
+    <div id="setting-menu" class="setting-section active">
+        <div class="settings-grid">
+            <div class="info-card">
+                <h3 class="oswald-font">Personal Info</h3>
+                <div class="card-row"><strong>First name:</strong> <span class="sync-firstname">...</span></div>
+                <div class="card-row"><strong>Last name:</strong> <span class="sync-lastname">...</span></div>
+                <div class="card-row"><strong>Email:</strong> <span class="sync-email">...</span></div>
+                <div class="card-row"><strong>Password:</strong> ******</div>
+                <button class="btn-edit" onclick="showSettingSection('setting-personal')">Edit</button>
+            </div>
+
+            <div class="info-card">
+                <h3 class="oswald-font">Billing info</h3>
+                <div class="card-row"><strong>First name:</strong> <span class="sync-firstname">...</span></div>
+                <div class="card-row"><strong>Last name:</strong> <span class="sync-lastname">...</span></div>
+                <div class="card-row"><strong>Credit Card no:</strong> <span>**** 6666</span></div>
+                <button class="btn-edit" onclick="showSettingSection('setting-billing')">Edit</button>
+            </div>
+
+            <div class="info-card">
+                <h3 class="oswald-font">Shipping info & address</h3>
+                <div class="card-row"><strong>First name:</strong> <span class="sync-firstname">...</span></div>
+                <div class="card-row"><strong>Last name:</strong> <span class="sync-lastname">...</span></div>
+                <div class="card-row"><strong>Email:</strong> <span class="sync-email">...</span></div>
+                <div class="card-row"><strong>Phone number:</strong> <span class="sync-phone">...</span></div>
+                <div class="card-row"><strong>Address:</strong> <span class="sync-address">...</span></div>
+                <button class="btn-edit" onclick="showSettingSection('setting-shipping')">Edit</button>
+            </div>
+        </div>
+        
+        <div class="delete-account-area">
+            <a href="#" class="text-danger">Delete Account</a>
+        </div>
+    </div>
+
+    <div id="setting-personal" class="setting-section">
+        <div class="btn-back" onclick="showSettingSection('setting-menu')">
+            <i class="fas fa-chevron-left"></i> <span class="oswald-font">Setting</span>
+        </div>
+
+        <div class="setting-header">
+            <h2 class="oswald-font">Personal Info</h2>
+            <p>Tell us your basic info details</p>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
+
+        <div class="form-group">
+            <label class="form-label">First Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-p-firstname" class="form-input sync-firstname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-p-lastname" class="form-input sync-lastname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="input-wrapper">
+                <input type="email" id="inp-p-email" class="form-input sync-email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrapper">
+                <input type="password" value="******" class="form-input">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Phone number</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-p-phone" class="form-input sync-phone">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-update-large" onclick="saveBatchData('personal')">Update</button>
+        </div>
+
+        <div class="setting-header" style="margin-top: 50px;">
+            <h2 class="oswald-font">Profile picture</h2>
+            <p>We support only JPEGs or PNGs under 5MB</p>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 30px; margin-top: 20px;">
+            <div class="avatar-circle" style="width: 100px; height: 100px;">
+                <img src="https://via.placeholder.com/60?text=User" alt="Avatar" class="sync-avatar">
+            </div>
+            <button class="btn-update-block">Update</button>
+        </div>
+    </div>
+
+    <div id="setting-billing" class="setting-section">
+        <div class="btn-back" onclick="showSettingSection('setting-menu')">
+            <i class="fas fa-chevron-left"></i> <span class="oswald-font">Setting</span>
+        </div>
+
+        <div class="setting-header">
+            <h2 class="oswald-font">Billing Info</h2>
+            <p>Manage and edit billing information</p>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
+
+        <div class="form-group">
+            <label class="form-label">First Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-b-firstname" class="form-input sync-firstname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-b-lastname" class="form-input sync-lastname">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-update-large" onclick="saveBatchData('billing')">Update</button>
+        </div>
+
+        <div class="setting-header" style="margin-top: 50px;">
+            <h2 class="oswald-font">Payment</h2>
+        </div>
+
+        <div class="payment-card">
+            <div class="card-logo">VISA</div>
+            <div class="card-details">
+                <div class="card-number">xxxx xxxx xxxx 6666</div>
+                <span class="card-expiry">Expires: 6/2027</span>
+                <span class="card-default">Default</span>
+            </div>
+            <button class="btn-remove-card"><i class="far fa-times-circle"></i></button>
+        </div>
+
+        <button class="btn-update-block">
+            <i class="fas fa-plus" style="margin-right: 10px; font-size: 12px;"></i> Add Payment Method
+        </button>
+    </div>
+
+    <div id="setting-shipping" class="setting-section">
+        <div class="btn-back" onclick="showSettingSection('setting-menu')">
+            <i class="fas fa-chevron-left"></i> <span class="oswald-font">Setting</span>
+        </div>
+
+        <div class="setting-header">
+            <h2 class="oswald-font">Shipping Info</h2>
+            <p>Manage and edit shipping information</p>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
+
+        <div class="form-group">
+            <label class="form-label">First Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-s-firstname" class="form-input sync-firstname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-s-lastname" class="form-input sync-lastname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="input-wrapper">
+                <input type="email" id="inp-s-email" class="form-input sync-email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-s-phone" class="form-input sync-phone">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Address</label>
+            <div class="input-wrapper">
+                <input type="text" id="inp-s-address" class="form-input sync-address">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-update-large" onclick="saveBatchData('shipping')">Update</button>
+        </div>
+    </div>
+
+</div>
