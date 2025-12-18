@@ -1,1 +1,1 @@
-let auth = 0;
+let auth = 1;

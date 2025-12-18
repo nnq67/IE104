@@ -150,7 +150,6 @@ body {
 
 /* --- MAIN CONTENT AREA --- */
 .tab-content {
-  display: block !important;
   min-height: 400px;
   margin-bottom: 60px;
   animation: fadeIn 0.5s;

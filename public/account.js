@@ -256,3 +256,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let Auth = auth;
   showShit(Auth);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  let Auth = auth;
+  if (Auth === -1) {
+    document.getElementById("setting").classList.add("active");
+    document.getElementById("setting").click();
+    document.getElementById("trans").classList.remove("active");
+  } else if (Auth === 1) {
+    document.getElementById("trans").click();
+  }
+});
