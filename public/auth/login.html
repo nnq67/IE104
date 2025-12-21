@@ -3,29 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aucelot</title>
+    <title>Aucelot - Login</title>
     <link rel="stylesheet" href="./login.css" />
   </head>
   <body>
     <div class="login-container">
-      <a href="../home-guest.html">
-        <img class="back" src="../images/back.png"
-      /></a>
-      <form class="login-form">
+      <a href="../home.html"> <img class="back" src="../images/back.png" /></a>
+      
+      <form class="login-form" id="loginForm">
         <div class="login-img">
           <img src="../images/entrance.png" height="50px" />
         </div>
 
         <h1>Welcome!</h1>
         <p>Log in to your account</p>
-        <input placeholder="Email" required />
+        
+        <input id="loginEmail" type="email" placeholder="Email" required />
         <br />
-        <input placeholder="Password" type="password" required />
+        <input id="loginPassword" type="password" placeholder="Password" required />
+        
         <p>
           <b>Don't have account? <a href="./signup.html">Signup</a></b>
         </p>
-        <button>Log in</button>
+        
+        <button type="submit" id="login-btn">Log in</button>
       </form>
     </div>
+
+    <script src="./login.js"></script>
   </body>
 </html>

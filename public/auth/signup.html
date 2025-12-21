@@ -3,34 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aucelot</title>
+    <title>Aucelot - Sign Up</title>
     <link rel="stylesheet" href="./signup.css" />
   </head>
   <body>
     <div class="signup-container">
-      <a href="../home-guest.html">
-        <img class="back" src="../images/back.png"
-      /></a>
-      <form class="signup-form">
-        <div class="avatar">
+      <a href="../home.html"> <img class="back" src="../images/back.png" /></a>
+      <form class="signup-form" id="registerForm"> <div class="avatar">
           <img src="../images/default-yoda.png" width="100px" height="100px" />
         </div>
         <h1>Create account!</h1>
         <div class="NameInput">
-          <input placeholder="First name" required />
-          <input placeholder="Last name" required />
+          <input id="firstName" placeholder="First name" required />
+          <input id="lastName" placeholder="Last name" required />
         </div>
-        <input placeholder="Username" required />
-        <input placeholder="Email" required />
-        <input placeholder="Password" required type="password" />
-        <input placeholder="Confirm password" required type="password" />
-        <input placeholder="Address" />
-        <input placeholder="Phone number" />
-        <button id="signup-btn">Sign up</button>
+        <input id="username" placeholder="Username" required />
+        <input id="email" type="email" placeholder="Email" required /> <input id="password" placeholder="Password" required type="password" />
+        <input id="confirmPassword" placeholder="Confirm password" required type="password" />
+        <input id="address" placeholder="Address" />
+        <input id="phone" placeholder="Phone number" />
+        
+        <button type="submit" id="signup-btn">Sign up</button>
+        
         <p>
-          <b>Already have a account? <a href="login.html">Login</a></b>
+          <b>Already have an account? <a href="login.html">Login</a></b>
         </p>
       </form>
     </div>
+
+    <script src="./signup.js"></script>
   </body>
 </html>

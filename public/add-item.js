@@ -1,110 +1,71 @@
-const categoryModal = document.getElementById('categoryModal');
-const categoryList = document.getElementById('categoryList');
-const categoryIdInput = document.getElementById('categoryId');
+// Dữ liệu mẫu dựa trên danh sách bạn gửi (Nếu API chưa chạy, nó sẽ dùng tạm danh sách này)
+let categories = [
+    { id: "C01", name: "Electronics" }, { id: "C02", name: "Collectibles" },
+    { id: "C03", name: "Books" }, { id: "C04", name: "Art" },
+    { id: "C05", name: "Jewelry" }, { id: "C06", name: "Sports Memorabilia" },
+    { id: "C07", name: "Antiques" }, { id: "C08", name: "Furniture" },
+    { id: "C09", name: "Rare Items" }, { id: "C10", name: "Fashion" },
+    { id: "C11", name: "Photography" }, { id: "C12", name: "Comics" },
+    { id: "C13", name: "Toys" }, { id: "C14", name: "Musical Instruments" },
+    { id: "C15", name: "Home & Garden" }, { id: "C16", name: "Watches" },
+    { id: "C17", name: "Historical Documents" }, { id: "C18", name: "Wine & Spirits" },
+    { id: "C19", name: "Coins & Stamps" }, { id: "C20", name: "Movies & TV" },
+    { id: "C21", name: "Pet Supplies" }, { id: "C22", name: "Health & Beauty" },
+    { id: "C23", name: "Crafts" }, { id: "C24", name: "Video Games" },
+    { id: "C25", name: "Automotive" }, { id: "C26", name: "Industrial" },
+    { id: "C27", name: "Home Decor" }, { id: "C28", name: "Outdoor Gear" },
+    { id: "C29", name: "Science Equipment" }, { id: "C30", name: "Food & Beverage" }
+];
 
-// Biến để lưu trữ Category đã tải
-let categories = []; 
-
-// --- HÀM MỚI: TẢI CATEGORY TỪ SERVER (Neo4j API Endpoint) ---
-async function fetchCategories() {
-    // Thay thế '/categories' bằng API endpoint thực tế của bạn
-    const endpoint = '/api/categories'; 
-
-    try {
-        const res = await fetch(endpoint);
-        
-        if (!res.ok) {
-            throw new Error(`Server returned status: ${res.status}`);
-        }
-        
-        // Giả định API trả về mảng các đối tượng { id: 'C01', name: 'Electronics' }
-        categories = await res.json(); 
-        
-        // Kiểm tra xem dữ liệu có hợp lệ không
-        if (!Array.isArray(categories) || categories.length === 0) {
-            console.warn("Không tìm thấy Category nào từ server.");
-            categories = []; // Đảm bảo là mảng rỗng
-        }
-    } catch (error) {
-        console.error('Lỗi khi tải Category từ server:', error);
-        alert('Không thể tải danh sách Category. Vui lòng thử lại sau.');
-        categories = [];
-    }
-}
-
-// Gọi hàm tải Category ngay khi trang được tải
-fetchCategories(); 
-
-
-// --- LOGIC QUẢN LÝ MODAL (Đã sửa đổi để sử dụng biến 'categories' động) ---
-
-// 1. Hiển thị Modal
+// Hàm hiển thị danh sách lên Modal
 window.showCategoryModal = function() {
-    if (categories.length === 0) {
-        alert('Danh sách Category chưa được tải hoặc trống. Đang thử tải lại...');
-        fetchCategories().then(() => {
-            if (categories.length > 0) {
-                renderCategoryList();
-                categoryModal.style.display = 'block';
-            }
-        });
-        return;
-    }
-    
-    renderCategoryList();
-    categoryModal.style.display = 'block';
-}
+    const categoryList = document.getElementById('categoryList');
+    categoryList.innerHTML = ''; // Xóa trắng danh sách cũ
 
-function renderCategoryList() {
-    categoryList.innerHTML = ''; 
-    categories.forEach(category => {
-        // Giả định cấu trúc đối tượng là { id: category_id, name: category_name }
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `<strong>${category.id}</strong> - ${category.name}`;
-        listItem.onclick = () => selectCategory(category.id);
-        categoryList.appendChild(listItem);
+    // Hiển thị danh sách categories
+    categories.forEach(cat => {
+        const li = document.createElement('li');
+        li.style.padding = "10px";
+        li.style.borderBottom = "1px solid #eee";
+        li.style.cursor = "pointer";
+        li.innerHTML = `<strong>${cat.id}</strong> - ${cat.name}`;
+        
+        // Khi click vào một dòng
+        li.onclick = function() {
+            document.getElementById('categoryId').value = cat.id; // Điền ID vào input
+            closeCategoryModal(); // Đóng modal
+        };
+        
+        categoryList.appendChild(li);
     });
+
+    document.getElementById('categoryModal').style.display = 'block';
 }
 
-// 2. Đóng Modal
 window.closeCategoryModal = function() {
-    categoryModal.style.display = 'none';
+    document.getElementById('categoryModal').style.display = 'none';
 }
-
-// 3. Chọn Category
-window.selectCategory = function(id) {
-    categoryIdInput.value = id; 
-    closeCategoryModal();        
-}
-
-// Đóng modal khi click ra ngoài
-window.onclick = function(event) {
-    if (event.target == categoryModal) {
-        closeCategoryModal();
-    }
-}
-
-
-// --- HÀM ADD ITEM ĐÃ CẬP NHẬT ---
 
 async function addItem() {
-    // 1. Lấy dữ liệu từ các trường nhập liệu
+    console.log("Nút Add đã được bấm!"); // Để kiểm tra xem hàm có chạy không
+
+    // 1. Lấy dữ liệu từ đúng các ID trong HTML của bạn
     const name = document.getElementById('name').value.trim();
     const owner = document.getElementById('owner').value.trim();
+    const descriptionDetail = document.getElementById('descriptionDetail').value.trim(); // Phải đúng ID này
     const baseBid = Number(document.getElementById('baseBid').value);
     const timeStart = document.getElementById('timeStart').value;
     const timeEnd = document.getElementById('timeEnd').value;
     const imageUrl = document.getElementById('imageUrl').value.trim();
-    const descriptionDetail = document.getElementById('descriptionDetail').value.trim();
     const categoryId = document.getElementById('categoryId').value.trim();
 
     // 2. Kiểm tra các trường bắt buộc
-    if (!name || !owner || !baseBid || baseBid <= 0 || !categoryId) {
-        alert('Vui lòng điền đầy đủ và chính xác các trường: Item Name, Item Owner, Base Bid (> 0) và Category ID.');
+    if (!name || !owner || !baseBid || !categoryId) {
+        alert('Vui lòng điering đầy đủ: Tên, Người bán, Giá gốc và Danh mục!');
         return;
     }
 
-    // 3. Chuẩn bị đối tượng dữ liệu gửi lên Server
+    // 3. Chuẩn bị dữ liệu gửi đi (Mapping khớp với Model của bạn)
     const data = {
         description: name, 
         sellerId: owner, 
@@ -117,7 +78,8 @@ async function addItem() {
     };
 
     try {
-        const res = await fetch('/items', {
+        // Gửi yêu cầu đến API (Lưu ý: /api/items hay /items tùy theo server.js của bạn)
+        const res = await fetch('/api/items', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -125,13 +87,13 @@ async function addItem() {
 
         if (res.ok) {
             alert('Sản phẩm đã được thêm thành công!');
-            window.location.href = 'items.html';
+            window.location.href = 'database.html'; // Chuyển về trang database như bạn đặt ở nút Cancel
         } else {
             const errorText = await res.text();
-            alert(`Lỗi khi thêm sản phẩm. Mã lỗi: ${res.status}. Chi tiết: ${errorText || 'Không rõ.'}`);
+            alert(`Lỗi từ Server: ${res.status} - ${errorText}`);
         }
     } catch (error) {
-        console.error('Fetch error:', error);
-        alert('Đã xảy ra lỗi mạng khi gửi yêu cầu.');
+        console.error('Lỗi Fetch:', error);
+        alert('Không thể kết nối đến Server. Vui lòng kiểm tra lại!');
     }
 }

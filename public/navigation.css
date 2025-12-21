@@ -1,98 +1,103 @@
 /* Thiết lập cơ bản */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
-  background-color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    padding-top: 80px; 
 }
+
 
 /* --- NAVIGATION ---*/
 .navbar {
-  display: flex;
-  height: 80px;
-  background-color: white;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    display: flex;
+    height: 80px;
+    background-color: white;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    padding: 0 30px;
 }
 
 .logo-container {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-  width: 120px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: auto;
 }
-.logo-container a {
-  height: 80px;
-}
+
 .logo-img {
-  height: 80px;
-  width: auto;
+    max-height: 60px; 
+    width: auto;
 }
 
 .nav-right {
-  display: flex;
-  align-items: center;
-  gap: 50px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
 }
 
 .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
+    list-style: none;
+    display: flex;
+    gap: 30px;
 }
 
 .nav-links li a {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-  transition: color 0.3s;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
 .nav-links li a:hover {
-  color: #eba636;
+    color: #EBA636;
 }
 
 /* --- CÁC NÚT BẤM --- */
 .nav-buttons {
-  display: flex;
-  gap: 15px;
+    display: flex;
+    gap: 15px;
 }
 
 .btn {
-  text-decoration: none;
-  padding: 10px 25px;
-  border-radius: 50px;
-  font-weight: 500;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  white-space: nowrap; /* Đảm bảo chữ không bị xuống dòng */
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .btn-logout {
-  color: #333;
-  border: 2px solid #333;
-  background-color: transparent;
+    color: #333;
+    border: 2px solid #333;
+    background-color: transparent;
 }
 
 .btn-logout:hover {
-  background-color: #333;
-  color: white;
+    background-color: #333;
+    color: white;
 }
 
 .btn-account {
-  background-color: #4e3b22;
-  color: white;
-  border: 2px solid #4e3b22;
+    background-color: #4E3B22;
+    color: white;
+    border: 2px solid #4E3B22;
 }
 
 .btn-account:hover {
-  background-color: #3a2c19;
-  border-color: #3a2c19;
+    background-color: #3a2c19;
+    border-color: #3a2c19;
 }

@@ -13,15 +13,17 @@
 </head>
 <body>
 
+ 
+
   <!-- HEADER -->
   <div class="header">
+    <a href="account.html"> <img class="back" src="../images/back.png" /></a>
+
     <div class="tabs">
       <div class="tab" id="tab-users" onclick="showUsers()">Users</div>
       <div class="tab active" id="tab-items" onclick="showItems()">Items</div>
     </div>
   </div>
-
-  <div class="container">
 
     <!-- USERS PAGE -->
     <div id="users-page" class="page">
@@ -30,7 +32,6 @@
           <input type="text" placeholder="Hinted search text">
           <span>🔍</span>
         </div>
-        <a href = "add-item.html"><button class="add-btn">+ Add</button></a>
       </div>
 
       <div class="card">
@@ -38,7 +39,7 @@
           <div class="title">Pong Ton</div>
         </div>
         <div class="actions">
-          <button class="view-btn">View details</button>
+          <a href = "user-detail.html"><button class="view-btn">View details</button></a>
           <button class="delete-btn">Delete</button>
         </div>
       </div>
@@ -51,7 +52,7 @@
           <input type="text" placeholder="Hinted search text">
           <span>🔍</span>
         </div>
-        <button class="add-btn">+ Add</button>
+        <a href = "add-item.html"><button class="add-btn">+ Add</button></a>
       </div>
 
       <div class="card">
@@ -60,7 +61,7 @@
           <div class="subtitle">by Leonardo Da Vinci</div>
         </div>
         <div class="actions">
-          <button class="view-btn">View details</button>
+          <a href = "item-detail.html"><button class="view-btn">View details</button></a>
           <button class="delete-btn">Delete</button>
         </div>
       </div>

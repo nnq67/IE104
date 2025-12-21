@@ -13,8 +13,12 @@ body {
 .header {
   background: #5a431c;
   padding: 22px 0;
+  position: relative; /* Quan trọng để nút back căn chỉnh theo header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
 }
-
 .tabs {
   display: flex;
   justify-content: center;
@@ -163,4 +167,21 @@ body {
 
 .page.active {
     display: block;
+}
+
+.back {
+  width: 30px;      
+  height: 30px;
+  position: absolute; 
+  left: 30px;      
+  top: 50%;        
+  transform: translateY(-50%); 
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s;
+  filter: brightness(0) invert(1); 
+}
+
+.back:hover {
+  opacity: 0.8;
+  transform: translateY(-50%) scale(1.1); 
 }

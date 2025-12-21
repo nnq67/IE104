@@ -1,305 +1,169 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Account - Aucelot</title>
-    
-    <link rel="stylesheet" href="navigation.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="account.css">
-    <link rel="stylesheet" href="style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="navigation.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="account.css" />
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Oswald:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
     <style>
-        .status-success { color: green; font-weight: 700; }
-        .status-waiting { color: #d49b55; font-weight: 700; }
-        .status-cancelled { color: red; font-weight: 700; }
-        .tab-content { display: block !important; }
-        
-        .product-thumb {
-            width: 80px;
-            height: 60px;
-            object-fit: cover;
-            border: 1px solid #eee;
-            margin-right: 15px;
-            vertical-align: middle;
-        }
+      .status-success {
+        color: green;
+        font-weight: 700;
+      }
+      .status-waiting {
+        color: #d49b55;
+        font-weight: 700;
+      }
+      .status-cancelled {
+        color: red;
+        font-weight: 700;
+      }
 
-        .bid-status-leading { color: #6CC04A; font-weight: 700; }
-        .bid-status-outbid { color: #D32F2F; font-weight: 700; }
+      .product-thumb {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+        border: 1px solid #eee;
+        margin-right: 15px;
+        vertical-align: middle;
+      }
+
+      .bid-status-leading {
+        color: #6cc04a;
+        font-weight: 700;
+      }
+      .bid-status-outbid {
+        color: #d32f2f;
+        font-weight: 700;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="logo-container">
-            <a href="#">
-                <img src="./images/logo.png" alt="Aucelot Logo" class="logo-img">
-            </a>
+      <div class="logo-container">
+        <a href="#">
+          <img src="./images/logo.png" alt="Aucelot Logo" class="logo-img" />
+        </a>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="./home.html">Home</a></li>
+          <li><a href="./auction.html">Auction</a></li>
+          <li class="admin-view" style="display: none">
+            <a href="./appraisal.html">Appraisal</a>
+          </li>
+          <li><a href="./contact-us.html">Contact Us</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <a href="./auth/login.html" class="btn btn-logout">Logout</a>
+          <a href="./account.html" class="btn btn-account">Account</a>
         </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li><a href="./home.html">Home</a></li>
-                <li><a href="./auction.html">Auction</a></li>
-                <li><a href="./appraisal.html">Appraisal</a></li>
-                <li><a href="./contact-us.html">Contact Us</a></li>
-            </ul>
-            <div class="nav-buttons">
-                <a href="./log-in.html" class="btn btn-logout">Logout</a>
-                <a href="./account.html" class="btn btn-account">Account</a>
-            </div>
-        </div>
+      </div>
     </nav>
 
     <div class="account-hero">
-        <div class="container">
-            <h1 class="oswald-font">My account</h1>
-        </div>
+      <div class="container">
+        <h1 class="oswald-font">My account</h1>
+      </div>
     </div>
 
     <div class="user-bar-container">
-        <div class="container user-bar-flex">
-            <div class="user-info">
-                <div class="avatar-circle">
-                    <img src="https://via.placeholder.com/60?text=User" alt="Avatar" class="sync-avatar">
-                </div>
-                <div class="user-text">
-                    <h3 class="oswald-font sync-fullname">Pong Ton</h3> 
-                    <p class="sync-email">pongton@gm.uit.edu.vn</p>
-                    
-                    <a href="database.html" id="btn-admin-db" class="btn-database" style="display: none;">
-                        <i class="fas fa-database"></i> Database
-                    </a>
+      <div class="container user-bar-flex">
+        <div class="user-info">
+          <div class="avatar-circle">
+            <img
+              src="https://via.placeholder.com/60?text=User"
+              alt="Avatar"
+              class="sync-avatar"
+            />
+          </div>
+          <div class="user-text">
+            <h3 class="oswald-font sync-fullname">Pong Ton</h3>
+            <p class="sync-email">pongton@gm.uit.edu.vn</p>
 
-                </div>
-            </div>
-
-            <ul class="account-tabs">
-                <li class="tab-link active" onclick="loadTab(event, 'transaction-history.html')">Transaction History</li>
-                <li class="tab-link" onclick="loadTab(event, 'bidding-history.html')">Bidding History</li>
-                <li class="tab-link" onclick="loadTab(event, 'setting.html')">Setting</li>
-            </ul>
+            <span class="admin-view">
+              <a href="database.html" id="btn-admin-db" class="btn-database">
+                <i class="fas fa-database"></i> Database
+              </a>
+            </span>
+          </div>
         </div>
+
+        <ul class="account-tabs">
+          <li
+            id="trans"
+            class="tab-link active user-view"
+            onclick="loadTab(event, 'transaction-history.html')"
+          >
+            Transaction History
+          </li>
+          <li
+            class="tab-link user-view"
+            onclick="loadTab(event, 'bidding-history.html')"
+          >
+            Bidding History
+          </li>
+          <li
+            id="setting"
+            class="tab-link"
+            onclick="loadTab(event, 'setting.html')"
+          >
+            Setting
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="main-content container">
-        <div id="tab-content-placeholder"></div>
+      <div id="tab-content-placeholder"></div>
     </div>
 
     <footer>
-        <div class="container footer-content">
-            <div class="footer-left">
-                <h2 class="footer-logo">Aucelot</h2>
-                <p class="address">Khu phố 6, P.Linh Trung, Q.Thủ Đức, Tp.Hồ Chí Minh</p>
-                <p class="copyright">© 2025 AUCELOT. All rights reserved</p>
-            </div>
-            <div class="footer-right">
-                <h3>subscribe to our newsletter</h3>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="enter your email address">
-                    <button type="submit">Send</button>
-                </form>
-                <div class="footer-links">
-                    <a href="#">Terms & Conditions</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
+      <div class="container footer-content">
+        <div class="footer-left">
+          <h2 class="footer-logo">Aucelot</h2>
+          <p class="address">
+            Khu phố 6, P.Linh Trung, Q.Thủ Đức, Tp.Hồ Chí Minh
+          </p>
+          <p class="copyright">© 2025 AUCELOT. All rights reserved</p>
         </div>
+        <div class="footer-right">
+          <h3>subscribe to our newsletter</h3>
+          <form class="newsletter-form">
+            <input type="email" placeholder="enter your email address" />
+            <button type="submit">Send</button>
+          </form>
+          <div class="footer-links">
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
     </footer>
-
+    <script src="auth.js"></script>
     <script src="products.js"></script>
-
-    <script>
-        // --- DATA CENTER ---
-        const userData = {
-            firstname: "Pong",
-            lastname: "Ton",
-            email: "pongton@gm.uit.edu.vn",
-            phone: "0123456789",
-            address: "TPHCM",
-            avatar: "https://via.placeholder.com/60?text=User",
-            role: "admin"
-        };
-
-        function updateUI() {
-            // Text displays
-            document.querySelectorAll('.sync-firstname').forEach(el => el.textContent = userData.firstname);
-            document.querySelectorAll('.sync-lastname').forEach(el => el.textContent = userData.lastname);
-            document.querySelectorAll('.sync-fullname').forEach(el => el.textContent = userData.firstname + " " + userData.lastname);
-            document.querySelectorAll('.sync-email').forEach(el => el.textContent = userData.email);
-            document.querySelectorAll('.sync-address').forEach(el => el.textContent = userData.address);
-
-            // Images
-            document.querySelectorAll('.sync-avatar').forEach(el => el.src = userData.avatar);
-
-            // LOGIC ADMIN CHECK
-            const adminBtn = document.getElementById('btn-admin-db');
-            if (userData.role === 'admin') {
-                adminBtn.style.display = 'inline-block';
-            } else {
-                adminBtn.style.display = 'none';
-            }
-        }
-
-        // --- LOAD TAB ---
-        function loadTab(evt, fileName) {
-            // Reset active class
-            var tablinks = document.getElementsByClassName("tab-link");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            
-            // Set active if clicked
-            if (evt) {
-                evt.currentTarget.className += " active";
-            } else {
-                if (fileName.includes('transaction')) tablinks[0].className += " active";
-                if (fileName.includes('bidding')) tablinks[1].className += " active";
-                if (fileName.includes('setting')) tablinks[2].className += " active";
-            }
-
-            fetch(fileName)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("tab-content-placeholder").innerHTML = data;
-                    
-                    if(fileName.includes('transaction-history')) {
-                        renderTransactionHistory();
-                    } else if (fileName.includes('bidding-history')) {
-                        renderBiddingHistory();
-                    }
-
-                    setTimeout(updateUI, 50); 
-                })
-                .catch(error => console.error('Error loading tab:', error));
-        }
-
-        // --- RENDER TRANSACTION LIST ---
-        function renderTransactionHistory() {
-            const listContainer = document.getElementById('transaction-list');
-            if(!listContainer || typeof products === 'undefined') return;
-
-            // Lấy sản phẩm đã kết thúc làm dữ liệu đơn hàng
-            const endedProducts = products.filter(p => p.type === 'ended').slice(0, 5);
-
-            let html = '';
-            endedProducts.forEach((prod, index) => {
-                const orderId = "#21" + (3 - index); 
-                const date = new Date(prod.endTime).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-                const status = index === 0 ? "Waiting payment" : "Success";
-                const statusClass = index === 0 ? "status-waiting" : "status-success";
-                
-                html += `
-                    <tr>
-                        <td class="highlight-text">${orderId}</td>
-                        <td>${date}</td>
-                        <td class="${statusClass}">${status}</td>
-                        <td>$${prod.price}</td>
-                        <td class="text-right">
-                            <button class="btn-view" onclick="loadOrderDetail(${prod.id}, '${orderId}', '${status}')">View</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            listContainer.innerHTML = html;
-        }
-
-        // --- LOAD & RENDER ORDER DETAIL ---
-        function loadOrderDetail(productId, orderId, status) {
-            fetch('order-detail.html')
-                .then(response => response.text())
-                .then(htmlTemplate => {
-                    document.getElementById("tab-content-placeholder").innerHTML = htmlTemplate;
-
-                    const product = products.find(p => p.id === productId);
-                    if (!product) return;
-
-                    document.getElementById('od-order-id').innerText = orderId;
-                    document.getElementById('od-date').innerText = new Date(product.endTime).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-                    document.getElementById('od-status').innerText = status;
-                    
-                    const priceRaw = parseInt(product.price.replace(/,/g, ''));
-                    const commission = priceRaw * 0.05; 
-                    const total = priceRaw + commission;
-
-                    document.getElementById('od-product-name').innerHTML = `<img src="${product.img}" class="product-thumb"> ${product.title}`;
-                    document.getElementById('od-product-price').innerText = `$${product.price}`;
-                    
-                    document.getElementById('od-subtotal').innerText = `$${product.price}`;
-                    document.getElementById('od-commission').innerText = `$${commission.toLocaleString()}`;
-                    document.getElementById('od-total').innerText = `$${total.toLocaleString()}`;
-
-                    document.getElementById('od-billing-address').innerText = userData.address;
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-        }
-
-        // --- RENDER BIDDING HISTORY ---
-        function renderBiddingHistory() {
-            const listContainer = document.getElementById('bidding-list');
-            if(!listContainer || typeof products === 'undefined') return;
-
-            const biddingProducts = products.filter(p => p.type === 'current' && p.userBid !== null);
-
-            let html = '';
-            if (biddingProducts.length === 0) {
-                html = '<div style="text-align: center; padding: 30px;">You have no active bids.</div>';
-            } else {
-                biddingProducts.forEach(prod => {
-                    const currentPriceVal = parseInt(prod.price.replace(/,/g, ''));
-                    const userBidVal = parseInt(prod.userBid.replace(/,/g, ''));
-
-                    let statusText = "Outbid";
-                    let statusClass = "bid-status-outbid";
-
-                    if (userBidVal >= currentPriceVal) {
-                        statusText = "Leading";
-                        statusClass = "bid-status-leading";
-                    }
-
-                    html += `
-                        <div class="bidding-item">
-                            <div class="product-info">
-                                <img src="${prod.img}" alt="${prod.title}" class="product-thumb">
-                                <span>${prod.title}</span>
-                            </div>
-                            <div class="bid-col">$${prod.userBid}</div>
-                            <div class="bid-col">$${prod.price}</div>
-                            <div class="bid-col ${statusClass}">${statusText}</div>
-                            <div class="bid-col text-right">
-                                <a href="product-detail.html?id=${prod.id}" class="btn-view-small">View Product</a>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            listContainer.innerHTML = html;
-        }
-
-        // Khởi tạo
-        document.addEventListener("DOMContentLoaded", function() {
-            loadTab(null, 'transaction-history.html');
-            updateUI();
-        });
-        
-        function showSettingSection(sectionId) {
-            const sections = document.querySelectorAll('.setting-section');
-            sections.forEach(sec => sec.classList.remove('active'));
-            const target = document.getElementById(sectionId);
-            if(target) target.classList.add('active');
-        }
-    </script>
-</body>
+    <script src="account.js"></script>
+  </body>
 </html>

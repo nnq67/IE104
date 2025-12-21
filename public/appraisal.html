@@ -49,31 +49,36 @@
       <div class="appraisal-box">
         <div class="content-wrapper">
           <div class="image-section">
-            <div class="image-placeholder"></div>
-            <button class="upload-button">Upload picture</button>
+            <div class="image-placeholder">
+              <input type="file" id="imageInput" accept="image/*" />
+              <img id="outputImage" height="320px" width="auto" />
+            </div>
+            <button class="upload-button" id="generate-btn">Generate</button>
           </div>
 
           <div class="form-section">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" placeholder="Name" />
+              <input
+                type="text"
+                id="itemName"
+                placeholder="Item Name (e.g. Vintage Watch)"
+              />
+              <input
+                type="text"
+                id="itemAuthor"
+                placeholder="Author/Brand (e.g. Rolex)"
+              />
+              <input
+                type="number"
+                id="itemPrice"
+                placeholder="Starting Price ($)"
+              />
             </div>
-
-            <div class="form-group">
-              <label for="author">Author</label>
-              <input type="text" id="author" placeholder="Author" />
+            <div id="result">
+              <p id="headlineText" class="appraisal-note">
+                Your description will appear here...
+              </p>
             </div>
-
-            <div class="form-group">
-              <label for="price">Starting Desired Price</label>
-              <input type="number" id="price" placeholder="[number]" />
-            </div>
-
-            <p class="appraisal-note">
-              It will take about 5 minutes or more to appraise the item.
-            </p>
-
-            <button class="appraise-button">Appraise</button>
           </div>
         </div>
       </div>
@@ -107,4 +112,5 @@
       </div>
     </footer>
   </body>
+  <script src="appraisal.js" defer></script>
 </html>
