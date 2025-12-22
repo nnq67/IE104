@@ -1,5 +1,4 @@
-import {key} from "../key.js";
-const API_KEY = key; 
+const API_KEY = "AIzaSyDp8u6AK5J4ZoeDhqCU9frbEnUWJfDk4s4"; 
 
 const GEN_MODEL = "gemini-flash-latest";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEN_MODEL}:generateContent?key=${API_KEY}`;
@@ -92,45 +91,3 @@ imageInput.onchange = function () {
     outputImage.style.display = "block";
   }
 };
-
-function showUserHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  userViews.forEach((el) => (el.style.display = "block"));
-  guestViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showGuestHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  guestViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showAdminHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  adminViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  guestViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showShit(Auth) {
-  if (Auth == -1) {
-    showAdminHome();
-  } else if (Auth == 1) {
-    showUserHome();
-  } else {
-    showGuestHome();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  let Auth = localStorage.getItem('auth');
-  showShit(Auth);
-});
