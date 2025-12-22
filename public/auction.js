@@ -218,6 +218,13 @@ function showShit(Auth) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = localStorage.getItem('auth');
+  let Auth = localStorage.getItem("auth");
   showShit(Auth);
+});
+
+const logoutButtons = document.querySelectorAll(".btn-logout");
+logoutButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem("auth", "0");
+  });
 });

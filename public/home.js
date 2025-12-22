@@ -76,7 +76,7 @@ p.slice(0, 8).forEach((product) => {
 //  0 = guest
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = localStorage.getItem('auth'); 
+  let Auth = localStorage.getItem("auth");
   console.log("Auth value:", Auth);
   showShit(Auth);
 });
@@ -127,3 +127,10 @@ const smallD = document.getElementById("smallD");
 smallD.innerHTML = `The upcoming auction will be held on ${formatDMY(
   earliestDate
 )}.`;
+
+const logoutButtons = document.querySelectorAll(".btn-logout");
+logoutButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem("auth", "0");
+  });
+});

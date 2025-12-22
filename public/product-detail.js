@@ -191,9 +191,9 @@ function showAdminHome() {
 }
 
 function showShit(Auth) {
-  if (Auth === -1) {
+  if (Auth == -1) {
     showAdminHome();
-  } else if (Auth === 1) {
+  } else if (Auth == 1) {
     showUserHome();
   } else {
     showGuestHome();
@@ -201,6 +201,13 @@ function showShit(Auth) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
+  let Auth = localStorage.getItem("auth");
   showShit(Auth);
+});
+
+const logoutButtons = document.querySelectorAll(".btn-logout");
+logoutButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem("auth", "0");
+  });
 });
