@@ -1,58 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Add Item</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Item</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="add-item.css" />
+    <script src="add-item.js" defer></script>
+  </head>
+  <body>
+    <div class="header">ADD ITEM</div>
 
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="add-item.css" />
-  <script src="add-item.js" defer></script>
-</head>
-<body>
+    <div class="container">
+      <label>Item's Name</label>
+      <input id="name" />
 
-  <div class="header">ADD ITEM</div>
+      <label>Item's Owner (Seller ID)</label>
+      <input id="owner" />
 
-  <div class="container">
-    <label>Item's Name</label>
-    <input id="name" />
+      <label>Description Detail</label>
+      <input id="descriptionDetail" />
 
-    <label>Item's Owner (Seller ID)</label>
-    <input id="owner" />
+      <label>Base Bid</label>
+      <input id="baseBid" type="number" />
 
-    <label>Description Detail</label>
-    <input id="descriptionDetail"></input>
+      <label>Time Start</label>
+      <input id="timeStart" type="datetime-local" />
 
-    <label>Base Bid</label>
-    <input id="baseBid" type="number" />
+      <label>Time End</label>
+      <input id="timeEnd" type="datetime-local" />
 
-    <label>Time Start</label>
-    <input id="timeStart" type="datetime-local" />
+      <label>Image URL</label>
+      <input id="imageUrl" />
 
-    <label>Time End</label>
-    <input id="timeEnd" type="datetime-local" />
+      <label>Category ID</label>
+      <div class="category-group">
+        <input id="categoryId" readonly placeholder="Select a Category" />
+        <button class="btn btn-select" onclick="showCategoryModal()">
+          Select Category
+        </button>
+      </div>
 
-    <label>Image URL</label>
-    <input id="imageUrl" />
-
-    <label>Category ID</label>
-    <div class="category-group">
-      <input id="categoryId" readonly placeholder="Select a Category" />
-      <button class="btn btn-select" onclick="showCategoryModal()">Select Category</button>
+      <div class="actions">
+        <button class="btn btn-add" onclick="addItem()">Save</button>
+        <button
+          class="btn btn-cancel"
+          onclick="window.location.href='database.html'"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
 
-    <div class="actions">
-      <button class="btn btn-add" onclick="addItem()">Save</button>
-      <button class="btn btn-cancel" onclick="window.location.href='database.html'">Cancel</button>
+    <div id="categoryModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeCategoryModal()">&times;</span>
+        <h2>Select Category</h2>
+        <ul id="categoryList"></ul>
+      </div>
     </div>
-  </div>
-
-  <div id="categoryModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeCategoryModal()">&times;</span>
-      <h2>Select Category</h2>
-      <ul id="categoryList">
-        </ul>
-    </div>
-  </div>
-</body>
+  </body>
 </html>

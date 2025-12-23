@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aucelot - Login</title>
     <link rel="stylesheet" href="./login.css" />
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
   </head>
   <body>
     <div class="login-container">
       <a href="../home.html"> <img class="back" src="../images/back.png" /></a>
-      
+
       <form class="login-form" id="loginForm">
         <div class="login-img">
           <img src="../images/entrance.png" height="50px" />
@@ -17,15 +18,20 @@
 
         <h1>Welcome!</h1>
         <p>Log in to your account</p>
-        
+
         <input id="loginEmail" type="email" placeholder="Email" required />
         <br />
-        <input id="loginPassword" type="password" placeholder="Password" required />
-        
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Password"
+          required
+        />
+
         <p>
           <b>Don't have account? <a href="./signup.html">Signup</a></b>
         </p>
-        
+
         <button type="submit" id="login-btn">Log in</button>
       </form>
     </div>
