@@ -50,10 +50,19 @@ if (product) {
 
 // --- HÀM RENDER ---
 function renderCurrent(p, targetDate) {
+  const allBids = JSON.parse(localStorage.getItem("allBids")) || {};
+  let finalPrice;
+  if (allBids[p.id]) {
+    finalPrice = allBids[p.id];
+  } else {
+    finalPrice = Number(p.price.toString().replace(/,/g, ""));
+  }
+  let displayPrice = finalPrice.toLocaleString();
+
   statusArea.innerHTML = `
         <div class="price-section">
             <span class="p-label">current bid:</span>
-            <span class="p-value green">$${p.price}</span>
+            <span class="p-value green">$${displayPrice}</span>
         </div>
         <div class="timer-section">
             <p class="timer-label">Time left to end auction:</p>
@@ -102,8 +111,19 @@ function renderRelated(list) {
     if (p.type === "current") dotClass = "green";
     if (p.type === "ended") dotClass = "red";
 
+    const allBids = JSON.parse(localStorage.getItem("allBids")) || {};
+
+    let finalPrice;
+    if (allBids[p.id]) {
+      finalPrice = allBids[p.id];
+    } else {
+      finalPrice = Number(p.price.toString().replace(/,/g, ""));
+    }
+
+    let displayPrice = finalPrice.toLocaleString();
+
     // Xác định giá hiển thị
-    let priceDisplay = p.type === "upcoming" ? "-" : "$" + p.price;
+    let priceDisplay = p.type === "upcoming" ? "-" : "$" + displayPrice;
     let labelDisplay = p.type === "ended" ? "hammer price:" : "current bid:";
 
     const html = `
@@ -210,4 +230,47 @@ logoutButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     localStorage.setItem("auth", "0");
   });
+});
+
+function saveBid(productId, amount) {
+  // 1. Lấy danh sách bid hiện có (nếu chưa có thì tạo object trống {})
+  let allBids = JSON.parse(localStorage.getItem("allBids")) || {};
+
+  // 2. Cập nhật hoặc thêm mới giá cho ID sản phẩm này
+  allBids[productId] = Number(amount);
+
+  // 3. Lưu lại vào localStorage
+  localStorage.setItem("allBids", JSON.stringify(allBids));
+}
+
+const bidBtn = document.getElementById("bid-btn-real");
+
+bidBtn.addEventListener("click", () => {
+  const bidInput = document.getElementById("bidAmount");
+  const nBidInputValue = Number(bidInput.value);
+  //
+  //
+  const allBids = JSON.parse(localStorage.getItem("allBids")) || {};
+
+  const nProductPrice = Number(product.price.toString().replace(/,/g, ""));
+  const priceToBeat = allBids[product.id] ? allBids[product.id] : nProductPrice;
+  const roleNow = localStorage.getItem("auth") || "0";
+  if (roleNow == 1) {
+    //
+    if (nBidInputValue > priceToBeat) {
+      saveBid(product.id, nBidInputValue);
+      location.reload();
+    } else {
+      alert("Bạn không thể bid nhỏ hơn hoặc bằng giá hiện tại được D:<");
+      bidInput.value = "";
+      bidInput.focus();
+    }
+
+    //
+  } else if (roleNow == -1) {
+    alert("Bạn là admin nên không thể bid được :((");
+  } else {
+    alert("Hãy đăng nhập để có thể dùng tính năng này!");
+    window.location.href = "./auth/login.html";
+  }
 });
