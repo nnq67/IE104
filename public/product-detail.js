@@ -50,10 +50,19 @@ if (product) {
 
 // --- HÀM RENDER ---
 function renderCurrent(p, targetDate) {
+  let price;
+  let localCurrentPrice = Number(localStorage.getItem("currentBid"));
+  let nProductCurrentPrice = Number(product.price.replace(/,/g, ""));
+  if (localCurrentPrice > nProductCurrentPrice) {
+    price = localCurrentPrice.toLocaleString();
+  } else {
+    price = nProductCurrentPrice.toLocaleString();
+  }
+
   statusArea.innerHTML = `
         <div class="price-section">
             <span class="p-label">current bid:</span>
-            <span class="p-value green">$${p.price}</span>
+            <span class="p-value green">$${price}</span>
         </div>
         <div class="timer-section">
             <p class="timer-label">Time left to end auction:</p>
@@ -210,4 +219,29 @@ logoutButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     localStorage.setItem("auth", "0");
   });
+});
+
+const bidBtn = document.getElementById("bid-btn-real");
+
+bidBtn.addEventListener("click", () => {
+  const bidInputValue = document.getElementById("bidAmount").value;
+  let nBidInputValue = Number(bidInputValue);
+  let nProductPrice = Number(product.price.replace(/,/g, ""));
+
+  let localCurrentPrice =
+    Number(localStorage.getItem("currentBid")) || nProductPrice;
+  const roleNow = localStorage.getItem("auth") || "0";
+  if (roleNow == 1) {
+    if (nBidInputValue > localCurrentPrice) {
+      localStorage.setItem("currentBid", bidInputValue);
+      window.location.href = window.location.href;
+    } else {
+      alert("Bạn không thể bid nhỏ hơn giá hiện tại được D:<");
+    }
+  } else if (roleNow == -1) {
+    alert("Bạn là admin nên không thể bid được :((");
+  } else {
+    alert("Hãy đăng nhập để có thể dùng tính năng này!");
+    window.location.href = "./auth/login.html";
+  }
 });
