@@ -75,8 +75,35 @@ p.slice(0, 8).forEach((product) => {
 //  1 = user
 //  0 = guest
 
+function showUserHome() {
+  const userViews = document.querySelectorAll(".user-view");
+  const guestViews = document.querySelectorAll(".guest-view");
+  const adminViews = document.querySelectorAll(".admin-view");
+  userViews.forEach((el) => (el.style.display = "block"));
+  guestViews.forEach((el) => (el.style.display = "none"));
+  adminViews.forEach((el) => (el.style.display = "none"));
+}
+
+function showGuestHome() {
+  const userViews = document.querySelectorAll(".user-view");
+  const guestViews = document.querySelectorAll(".guest-view");
+  const adminViews = document.querySelectorAll(".admin-view");
+  guestViews.forEach((el) => (el.style.display = "block"));
+  userViews.forEach((el) => (el.style.display = "none"));
+  adminViews.forEach((el) => (el.style.display = "none"));
+}
+
+function showAdminHome() {
+  const userViews = document.querySelectorAll(".user-view");
+  const guestViews = document.querySelectorAll(".guest-view");
+  const adminViews = document.querySelectorAll(".admin-view");
+  adminViews.forEach((el) => (el.style.display = "block"));
+  userViews.forEach((el) => (el.style.display = "none"));
+  guestViews.forEach((el) => (el.style.display = "none"));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
+  let Auth = localStorage.getItem("auth");
   showShit(Auth);
 });
 
@@ -102,9 +129,9 @@ const timer = setInterval(() => {
   // 3. Update the UI
   document.getElementById("hour").innerHTML = hours;
   document.getElementById("minute").innerHTML =
-    "/" + minutes.toString().padStart(2, "0");
+    ":" + minutes.toString().padStart(2, "0");
   document.getElementById("second").innerHTML =
-    "/" + seconds.toString().padStart(2, "0");
+    ":" + seconds.toString().padStart(2, "0");
 
   // Handle expiration
   if (distance < 0) {
@@ -126,3 +153,10 @@ const smallD = document.getElementById("smallD");
 smallD.innerHTML = `The upcoming auction will be held on ${formatDMY(
   earliestDate
 )}.`;
+
+const logoutButtons = document.querySelectorAll(".btn-logout");
+logoutButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem("auth", "0");
+  });
+});

@@ -31,13 +31,13 @@ body {
 /* image */
 .sword {
   width: auto;
-  height: 330px;
+  height: 300px;
   transform: rotate(5deg);
 }
 
 .upcomingAuction-container {
   padding: 96px 96px 0px 96px;
-  margin: 0 200px;
+  margin: 0 50px;
   margin-bottom: 50px;
   background-color: white;
   flex-direction: column;

@@ -26,9 +26,9 @@ function showAdminHome() {
 }
 
 export function showShit(Auth) {
-  if (Auth === -1) {
+  if (Auth == -1) {
     showAdminHome();
-  } else if (Auth === 1) {
+  } else if (Auth == 1) {
     showUserHome();
   } else {
     showGuestHome();

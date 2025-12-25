@@ -1,131 +1,205 @@
-// 1. KHỞI TẠO TRANG
+/**
+ * 1. LẤY ID TỪ URL VÀ KIỂM TRA HỢP LỆ
+ */
 const params = new URLSearchParams(window.location.search);
-const productId = parseInt(params.get("id"));
+let productId = params.get("id"); 
 
-// Tìm sản phẩm trong DB
-let product = null;
-if (typeof products !== "undefined") {
-  product = products.find((p) => p.id === productId);
-} else {
-  console.error("products.js not loaded");
+let currentProduct = null; 
+
+/**
+ * 2. HÀM HELPER XỬ LÝ DỮ LIỆU
+ */
+function cleanData(p) {
+    const toNum = (val) => {
+        if (val === null || val === undefined) return 0;
+        if (typeof val === 'object' && val.toNumber) return val.toNumber();
+        return parseFloat(val);
+    };
+
+    const toDate = (d) => {
+        if (!d) return new Date();
+        if (typeof d === 'string') return new Date(d);
+        try {
+            return new Date(toNum(d.year), toNum(d.month) - 1, toNum(d.day), toNum(d.hour || 0), toNum(d.minute || 0));
+        } catch (e) { return new Date(); }
+    };
+
+    return {
+        id: p.itemId || p.id, 
+        title: p.title || "Untitled",
+        author: p.author || "Unknown Artist",
+        description: p.description || "No description provided.",
+        imageUrl: p.imageUrl || "images/placeholder.jpg",
+        price: toNum(p.price),
+        startTime: toDate(p.startTime),
+        endTime: toDate(p.endTime)
+    };
 }
 
-// DOM Elements
-const statusArea = document.getElementById("dynamicStatusArea");
-const bidArea = document.getElementById("bidInputArea");
+/**
+ * 3. FETCH DỮ LIỆU CHI TIẾT VÀ SẢN PHẨM LIÊN QUAN
+ */
+async function loadDetail() {
+    if (!productId || productId === "null") {
+        console.error("ID sản phẩm không hợp lệ");
+        document.querySelector(".pdp-right").innerHTML = "<h2>Error: Invalid Product ID</h2>";
+        return;
+    }
 
-// Hàm format ngày
-const formatD = (d) => d.toLocaleString("en-GB").replace(",", "");
+    try {
+        // --- FETCH SẢN PHẨM CHÍNH ---
+        const response = await fetch(`/api/items/${productId}`);
+        if (!response.ok) throw new Error("Sản phẩm không tồn tại hoặc lỗi Server");
 
-if (product) {
-  document.getElementById("detailImage").src = product.img;
-  document.getElementById("detailTitle").innerText = product.title;
-  document.getElementById("detailAuthor").innerText = "by " + product.author;
-  document.getElementById("detailDesc").innerText = product.desc;
-  document.title = "Aucelot - " + product.title;
+        const rawData = await response.json();
+        currentProduct = cleanData(rawData); 
 
-  const startDate = new Date(product.startTime);
-  const endDate = new Date(product.endTime);
+        document.getElementById("detailImage").src = currentProduct.imageUrl;
+        document.getElementById("detailTitle").innerText = currentProduct.title;
+        document.getElementById("detailAuthor").innerText = " " + currentProduct.author;
+        document.getElementById("detailDesc").innerText = currentProduct.description;
 
-  if (product.type === "current") {
-    // Current: Đếm ngược tới END TIME
-    renderCurrent(product, endDate);
-  } else if (product.type === "upcoming") {
-    // Upcoming: Đếm ngược tới START TIME
-    renderUpcoming(product, startDate);
-  } else {
-    renderEnded(product);
-  }
+        renderStatus(currentProduct);
 
-  //hiển thị random 4 products ở dưới
-  const related = products
-    .filter((p) => p.id !== productId)
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 4);
-  renderRelated(related);
-} else {
-  document.querySelector(".pdp-right").innerHTML =
-    "<h2>Product not found</h2><a href='auction.html'>Back to Auction</a>";
+        // --- FETCH SẢN PHẨM LIÊN QUAN (MỚI THÊM) ---
+        const relatedRes = await fetch('/api/items');
+        if (relatedRes.ok) {
+            const allItems = await relatedRes.json();
+            // Lọc bỏ sản phẩm hiện tại và chỉ lấy 4 cái để hiển thị
+            const relatedList = allItems.filter(item => (item.itemId || item.id) !== productId).slice(0, 4);
+            renderRelated(relatedList);
+        }
+
+    } catch (err) {
+        console.error("Load Detail Error:", err);
+        document.querySelector(".pdp-right").innerHTML = `<h2>Lỗi: ${err.message}</h2>`;
+    }
 }
 
-// --- HÀM RENDER ---
-function renderCurrent(p, targetDate) {
-  statusArea.innerHTML = `
+/**
+ * 4. RENDER TRẠNG THÁI ĐẤU GIÁ
+ */
+function renderStatus(p) {
+    const statusArea = document.getElementById("dynamicStatusArea");
+    const bidArea = document.getElementById("bidInputArea");
+    const now = new Date();
+
+    if (now < p.startTime) {
+        renderUpcoming(p, p.startTime, statusArea, bidArea);
+    } else if (now > p.endTime) {
+        renderEnded(p, statusArea, bidArea);
+    } else {
+        renderCurrent(p, p.endTime, statusArea, bidArea);
+    }
+}
+
+function renderCurrent(p, targetDate, statusArea, bidArea) {
+    let displayPrice = p.price.toLocaleString();
+    statusArea.innerHTML = `
         <div class="price-section">
             <span class="p-label">current bid:</span>
-            <span class="p-value green">$${p.price}</span>
+            <span class="p-value green">$${displayPrice}</span>
         </div>
         <div class="timer-section">
             <p class="timer-label">Time left to end auction:</p>
             <div class="countdown-box" id="countdown"></div>
-            <p class="start-date">Auction ends: ${formatD(targetDate)} GMT+8</p>
+            <p class="start-date">Auction ends: ${targetDate.toLocaleString()} GMT+7</p>
         </div>
     `;
-  bidArea.style.display = "block";
-  document.getElementById("bidAmount").placeholder =
-    "Enter amount > " + p.price;
-  startTimer(targetDate);
+    if (bidArea) {
+        bidArea.style.display = "block";
+        document.getElementById("bidAmount").value = p.price + 1000; 
+        document.getElementById("bidAmount").placeholder = "Enter amount > " + p.price;
+    }
+    startCountdown(targetDate);
 }
 
-function renderUpcoming(p, targetDate) {
-  statusArea.innerHTML = `
-        <p class="upcoming-msg">This auction has not been started yet</p>
+function renderUpcoming(p, targetDate, statusArea, bidArea) {
+    statusArea.innerHTML = `
+        <p class="upcoming-msg" style="color: orange; font-weight: bold;">This auction has not been started yet</p>
         <div class="timer-section">
             <p class="timer-label">Time left to start auction:</p>
             <div class="countdown-box" id="countdown"></div>
-            <p class="start-date">Auction starts: ${formatD(
-              targetDate
-            )} GMT+8</p>
+            <p class="start-date">Auction starts: ${targetDate.toLocaleString()} GMT+7</p>
         </div>
     `;
-  startTimer(targetDate);
+    if (bidArea) bidArea.style.display = "none";
+    startCountdown(targetDate);
 }
 
-function renderEnded(p) {
-  statusArea.innerHTML = `
+function renderEnded(p, statusArea, bidArea) {
+    statusArea.innerHTML = `
         <div class="price-section">
             <span class="p-label">hammer price:</span>
-            <span class="p-value red">$${p.price}</span>
+            <span class="p-value red">$${p.price.toLocaleString()}</span>
         </div>
         <div class="ended-line">
             <hr>
             <p style="color:red; font-style:italic; margin-top:10px;">This auction has ended</p>
         </div>
     `;
+    if (bidArea) bidArea.style.display = "none";
 }
 
+/**
+ * 5. XỬ LÝ ĐẾM NGƯỢC VÀ RELATED ITEMS
+ */
 function renderRelated(list) {
   const grid = document.getElementById("relatedGrid");
-  list.forEach((p) => {
-    // Xác định màu dot
-    let dotClass = "orange";
-    if (p.type === "current") dotClass = "green";
-    if (p.type === "ended") dotClass = "red";
+  if (!grid) return;
+  grid.innerHTML = ""; 
 
-    // Xác định giá hiển thị
-    let priceDisplay = p.type === "upcoming" ? "-" : "$" + p.price;
-    let labelDisplay = p.type === "ended" ? "hammer price:" : "current bid:";
+  list.forEach((p) => {
+    const img = p.imageUrl || p.img || 'images/placeholder.jpg';
+    const id = p.itemId || p.id;
+    const title = p.title || "Untitled";
+    
+    const now = new Date();
+    // Chuyển đổi date từ dữ liệu raw nếu cần
+    const start = cleanData(p).startTime;
+    const end = cleanData(p).endTime;
+    
+    let type = "current";
+    let dotClass = "green";
+
+    if (now < start) {
+        type = "upcoming";
+        dotClass = "orange";
+    } else if (now > end) {
+        type = "ended";
+        dotClass = "red";
+    }
+
+    let priceDisplay = type === "upcoming" ? "-" : "$" + (p.price || 0).toLocaleString();
+    let labelDisplay = type === "ended" ? "hammer price:" : "current bid:";
 
     const html = `
         <div class="product-card">
             <div class="card-img">
-                <a href="product-detail.html?id=${p.id}"><img src="${p.img}"></a>
+                <a href="product-detail.html?id=${id}"><img src="${img}"></a>
             </div>
             <div class="card-content">
-                <h3 class="product-title">${p.title}</h3>
-                <p class="product-author">by ${p.author}</p>
-                <div class="price-row"><span class="price-label">${labelDisplay}</span> <span class="price-value">${priceDisplay}</span></div>
-                <div class="status-row"><span class="status-dot dot-${dotClass}"></span> <span class="status-text">${p.type}</span></div>
-                <a href="product-detail.html?id=${p.id}" class="btn-card">View</a>
+                <h3 class="product-title">${title}</h3>
+                <p class="product-author">by ${p.author || "Unknown"}</p>
+                <div class="price-row">
+                    <span class="price-label">${labelDisplay}</span> 
+                    <span class="price-value">${priceDisplay}</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-dot dot-${dotClass}"></span> 
+                    <span class="status-text">${type}</span>
+                </div>
+                <a href="product-detail.html?id=${id}" class="btn-card">View</a>
             </div>
         </div>`;
     grid.innerHTML += html;
   });
 }
 
-// --- TIMER ---
-function startTimer(targetDate) {
+function startCountdown(targetDate) {
   const timerEl = document.getElementById("countdown");
+  if(!timerEl) return;
+
   const interval = setInterval(() => {
     const now = new Date().getTime();
     const distance = targetDate.getTime() - now;
@@ -136,71 +210,91 @@ function startTimer(targetDate) {
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((distance % (1000 * 60)) / 1000);
 
     timerEl.innerHTML = `
-            <div class="t-box"><span class="num">${pad(
-              days
-            )}</span><span class="txt">days</span></div>
-            <div class="t-box"><span class="num">${pad(
-              hours
-            )}</span><span class="txt">hours</span></div>
-            <div class="t-box"><span class="num">${pad(
-              minutes
-            )}</span><span class="txt">minutes</span></div>
-            <div class="t-box"><span class="num">${pad(
-              seconds
-            )}</span><span class="txt">seconds</span></div>
+            <div class="t-box"><span class="num">${pad(d)}</span><span class="txt">days</span></div>
+            <div class="t-box"><span class="num">${pad(h)}</span><span class="txt">hours</span></div>
+            <div class="t-box"><span class="num">${pad(m)}</span><span class="txt">minutes</span></div>
+            <div class="t-box"><span class="num">${pad(s)}</span><span class="txt">seconds</span></div>
         `;
   }, 1000);
 }
-function pad(n) {
-  return n < 10 ? "0" + n : n;
+
+function pad(n) { return n < 10 ? "0" + n : n; }
+
+/**
+ * 6. TÍNH NĂNG BID NOW
+ */
+const bidBtn = document.getElementById("bid-btn-real");
+if (bidBtn) {
+    bidBtn.addEventListener("click", async () => {
+        const bidInput = document.getElementById("bidAmount");
+        const auth = localStorage.getItem("auth");
+        const currentUserId = localStorage.getItem("userId"); 
+
+        if (!currentUserId || auth !== "1") {
+            alert("Vui lòng đăng nhập với tài khoản người mua để đấu giá!");
+            return;
+        }
+
+        const rawValue = bidInput.value.toString().replace(/[^0-9.]/g, '');
+        const bidValue = parseFloat(rawValue);
+        
+        if (isNaN(bidValue) || bidValue <= currentProduct.price) {
+            alert(`Giá thầu phải cao hơn giá hiện tại ($${currentProduct.price.toLocaleString()})!`);
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/items/bid', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: currentUserId,
+                    itemId: productId,
+                    bidAmount: bidValue
+                })
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                alert("Đặt thầu thành công!");
+                window.location.reload(); 
+            } else {
+                alert(result.error || "Có lỗi xảy ra");
+            }
+        } catch (err) {
+            console.error("Bid Connection Error:", err);
+            alert("Lỗi kết nối server.");
+        }
+    });
 }
 
-function showUserHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  userViews.forEach((el) => (el.style.display = "block"));
-  guestViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
+/**
+ * 7. ĐIỀU KHIỂN HIỂN THỊ THEO QUYỀN
+ */
+function updateUIBasedOnAuth() {
+    const auth = localStorage.getItem("auth");
+    const userViews = document.querySelectorAll(".user-view");
+    const guestViews = document.querySelectorAll(".guest-view");
+    const adminViews = document.querySelectorAll(".admin-view");
 
-function showGuestHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  guestViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
+    [...userViews, ...guestViews, ...adminViews].forEach(el => el.style.display = "none");
 
-function showAdminHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  adminViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  guestViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showShit(Auth) {
-  if (Auth === -1) {
-    showAdminHome();
-  } else if (Auth === 1) {
-    showUserHome();
-  } else {
-    showGuestHome();
-  }
+    if (auth == "-1") { 
+        adminViews.forEach(el => el.style.display = "block");
+    } else if (auth == "1") { 
+        userViews.forEach(el => el.style.display = "block");
+    } else { 
+        guestViews.forEach(el => el.style.display = "block");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
-  showShit(Auth);
+    updateUIBasedOnAuth();
+    loadDetail();
 });

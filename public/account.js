@@ -243,9 +243,9 @@ function showAdminHome() {
 }
 
 function showShit(Auth) {
-  if (Auth === -1) {
+  if (Auth == -1) {
     showAdminHome();
-  } else if (Auth === 1) {
+  } else if (Auth == 1) {
     showUserHome();
   } else {
     showGuestHome();
@@ -253,17 +253,24 @@ function showShit(Auth) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
+  let Auth = localStorage.getItem("auth");
   showShit(Auth);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
-  if (Auth === -1) {
+  let Auth = localStorage.getItem("auth");
+  if (Auth == -1) {
     document.getElementById("setting").classList.add("active");
     document.getElementById("setting").click();
     document.getElementById("trans").classList.remove("active");
-  } else if (Auth === 1) {
+  } else if (Auth == 1) {
     document.getElementById("trans").click();
   }
+});
+
+const logoutButtons = document.querySelectorAll(".btn-logout");
+logoutButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem("auth", "0");
+  });
 });

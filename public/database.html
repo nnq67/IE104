@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Users / Items</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Users / Items</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" />
+    <!-- Font Oswald -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="database.css" />
+    <script src="database.js" defer></script>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="header">
+      <a href="account.html"> <img class="back" src="../images/back.png" /></a>
 
-  <!-- Font Oswald -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="database.css" />
-  <script src="database.js" defer></script>
-</head>
-<body>
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="tabs">
-      <div class="tab" id="tab-users" onclick="showUsers()">Users</div>
-      <div class="tab active" id="tab-items" onclick="showItems()">Items</div>
+      <div class="tabs">
+        <div class="tab" id="tab-users" onclick="showUsers()">Users</div>
+        <div class="tab active" id="tab-items" onclick="showItems()">Items</div>
+      </div>
     </div>
-  </div>
-
-  <div class="container">
 
     <!-- USERS PAGE -->
     <div id="users-page" class="page">
       <div class="toolbar">
         <div class="search-box">
-          <input type="text" placeholder="Hinted search text">
+          <input type="text" placeholder="Hinted search text" />
           <span>🔍</span>
         </div>
-        <a href = "add-item.html"><button class="add-btn">+ Add</button></a>
       </div>
 
       <div class="card">
@@ -38,7 +39,9 @@
           <div class="title">Pong Ton</div>
         </div>
         <div class="actions">
-          <button class="view-btn">View details</button>
+          <a href="user-detail.html"
+            ><button class="view-btn">View details</button></a
+          >
           <button class="delete-btn">Delete</button>
         </div>
       </div>
@@ -48,10 +51,10 @@
     <div id="items-page" class="page active">
       <div class="toolbar">
         <div class="search-box">
-          <input type="text" placeholder="Hinted search text">
+          <input type="text" placeholder="Hinted search text" />
           <span>🔍</span>
         </div>
-        <button class="add-btn">+ Add</button>
+        <a href="add-item.html"><button class="add-btn">+ Add</button></a>
       </div>
 
       <div class="card">
@@ -60,13 +63,12 @@
           <div class="subtitle">by Leonardo Da Vinci</div>
         </div>
         <div class="actions">
-          <button class="view-btn">View details</button>
+          <a href="item-detail.html"
+            ><button class="view-btn">View details</button></a
+          >
           <button class="delete-btn">Delete</button>
         </div>
       </div>
     </div>
-
-  </div>
-
-</body>
+  </body>
 </html>
