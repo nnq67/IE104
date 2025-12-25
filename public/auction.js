@@ -4,220 +4,189 @@ let currentPage = 1;
 
 // CÁC BIẾN TRẠNG THÁI
 let currentTab = "all";
+let productsFromDB = []; 
+
 const searchInput = document.getElementById("searchInput");
 const sortSelect = document.getElementById("sortSelect");
 const gridContainer = document.getElementById("auctionGrid");
 const paginationContainer = document.querySelector(".pagination");
 
-// 2. HÀM HELPER: Format ngày tháng cho thẻ sản phẩm
-function getStatusInfo(product) {
-  let color = "green";
-  let labelText = "";
-
-  const formatD = (dateString) => {
-    const d = new Date(dateString);
-    return d.toLocaleString("en-GB").replace(",", "");
-  };
-
-  if (product.type === "current") {
-    // Đang diễn ra => Hiển thị khi nào KẾT THÚC
-    color = "green";
-    labelText = `auction ends in: ${formatD(product.endTime)} GMT+8`;
-  } else if (product.type === "upcoming") {
-    // Sắp diễn ra => Hiển thị khi nào BẮT ĐẦU
-    color = "orange";
-    labelText = `auction start in: ${formatD(product.startTime)} GMT+8`;
-  } else {
-    // Đã kết thúc
-    color = "red";
-    labelText = "This auction has ended";
+// --- HÀM LẤY DỮ LIỆU TỪ SERVER ---
+async function fetchProducts() {
+  try {
+    gridContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Loading auctions...</p>';
+    const response = await fetch('/api/items');
+    if (!response.ok) throw new Error("Failed to fetch");
+    
+    productsFromDB = await response.json();
+    console.log("Dữ liệu sạch từ Server:", productsFromDB); 
+    handleSortAndFilter(); 
+  } catch (error) {
+    console.error("Fetch error:", error);
+    gridContainer.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Error: ${error.message}</p>`;
   }
+}
 
-  return { color, labelText };
+// 2. HÀM HELPER: Format ngày tháng (Đã sửa lỗi N/A)
+function getStatusInfo(product) {
+    let color = "green";
+    let labelText = "";
+
+    const formatD = (dateStr) => {
+        if (!dateStr) return "Not available";
+        // Chấp nhận cả chuỗi ISO từ backend mới
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return "Invalid Date"; 
+        
+        return d.toLocaleString("en-GB", {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).replace(",", "");
+    };
+
+    const type = (product.type || "current").toLowerCase();
+
+    if (type === "current") {
+        color = "green";
+        labelText = `auction ends in: ${formatD(product.endTime)} GMT+8`;
+    } else if (type === "upcoming") {
+        color = "orange";
+        labelText = `auction start in: ${formatD(product.startTime)} GMT+8`;
+    } else {
+        color = "red";
+        labelText = "This auction has ended";
+    }
+
+    return { color, labelText };
 }
 
 // 3. HÀM RENDER SẢN PHẨM
 function renderProducts(productsToRender) {
-  gridContainer.innerHTML = "";
+    gridContainer.innerHTML = "";
 
-  if (productsToRender.length === 0) {
-    gridContainer.innerHTML =
-      '<p style="grid-column: 1/-1; text-align: center;">No products found.</p>';
-    return;
-  }
+    if (!productsToRender || productsToRender.length === 0) {
+        gridContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No products found.</p>';
+        return;
+    }
 
-  productsToRender.forEach((product) => {
-    // Xử lý hiển thị giá và nhãn giá
-    let displayPrice = product.price !== "-" ? `$${product.price}` : "-";
-    let priceLabel =
-      product.type === "ended" ? "hammer price:" : "current bid:";
+    productsToRender.forEach((product) => {
+        // Định dạng giá chuẩn: 100000000 -> $100.000.000
+        // Đảm bảo dùng Number() để tránh lỗi chuỗi
+        const priceValue = Number(product.price || 0);
+        const displayPrice = priceValue > 0 
+            ? "$" + priceValue.toLocaleString('de-DE') 
+            : "No Bid Yet";
 
-    // Lấy thông tin trạng thái
-    const { color, labelText } = getStatusInfo(product);
+        const { color, labelText } = getStatusInfo(product);
+        const priceLabel = product.type === "ended" ? "hammer price:" : "current bid:";
 
-    const cardHTML = `
+        const cardHTML = `
             <div class="product-card type-${product.type}">
                 <div class="card-img">
                     <a href="./product-detail.html?id=${product.id}">
-                        <img src="${product.img}" alt="${product.title}" loading="lazy">
+                        <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='./images/placeholder.jpg'">
                     </a>
                 </div>
                 <div class="card-content">
                     <h3 class="product-title">${product.title}</h3>
                     <p class="product-author">by ${product.author}</p>
-                    
                     <div class="price-row">
                         <span class="price-label">${priceLabel}</span>
-                        <span class="price-value">${displayPrice}</span>
+                        <span class="price-value" style="font-weight: bold; color: #d4a373;">${displayPrice}</span>
                     </div>
-
                     <div class="status-row">
                         <span class="status-dot dot-${color}"></span>
                         <span class="status-text">${labelText}</span>
                     </div>
-
                     <a href="./product-detail.html?id=${product.id}" class="btn-card">Bid now</a>
                 </div>
             </div>
         `;
-    gridContainer.innerHTML += cardHTML;
-  });
+        gridContainer.innerHTML += cardHTML;
+    });
 }
 
-// 4. HÀM VẼ THANH PHÂN TRANG (1, 2, 3...)
+// --- 4 & 5. PHÂN TRANG ---
 function renderPagination(totalItems) {
   paginationContainer.innerHTML = "";
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-
   if (totalPages <= 1) return;
-
   for (let i = 1; i <= totalPages; i++) {
     const activeClass = i === currentPage ? "active" : "";
-    paginationContainer.innerHTML += `
-            <a href="javascript:void(0)" class="page-link ${activeClass}" onclick="changePage(${i})">${i}</a>
-        `;
-  }
-
-  if (currentPage < totalPages) {
-    paginationContainer.innerHTML += `
-            <a href="javascript:void(0)" class="page-link" onclick="changePage(${
-              currentPage + 1
-            })"><i class="fas fa-arrow-right"></i></a>
-        `;
+    paginationContainer.innerHTML += `<a href="javascript:void(0)" class="page-link ${activeClass}" onclick="changePage(${i})">${i}</a>`;
   }
 }
 
-// 5. HÀM CHUYỂN TRANG
 function changePage(page) {
   currentPage = page;
   handleSortAndFilter();
-  document
-    .querySelector(".auction-controls")
-    .scrollIntoView({ behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 6. HÀM XỬ LÝ LỌC & SẮP XẾP & CẮT TRANG
+// 6. HÀM LỌC & SẮP XẾP (Sửa lỗi logic sắp xếp)
 function handleSortAndFilter() {
-  // Sử dụng mảng 'products' từ file products.js
   const searchText = searchInput.value.toLowerCase();
   const sortValue = sortSelect.value;
 
-  //FILTER
-  let filteredProducts = products.filter((product) => {
-    const matchTab = currentTab === "all" || product.type === currentTab;
+  let filteredProducts = productsFromDB.filter((product) => {
+    const type = (product.type || "current").toLowerCase();
+    const matchTab = currentTab === "all" || type === currentTab;
     const matchSearch =
-      product.title.toLowerCase().includes(searchText) ||
-      product.author.toLowerCase().includes(searchText);
+      (product.title && product.title.toLowerCase().includes(searchText)) ||
+      (product.author && product.author.toLowerCase().includes(searchText));
     return matchTab && matchSearch;
   });
 
-  //SORT
-  filteredProducts.sort((a, b) => {
-    if (sortValue === "az") return a.title.localeCompare(b.title);
-    if (sortValue === "za") return b.title.localeCompare(a.title);
-    return 0;
-  });
+  // Sắp xếp
+  if (sortValue === "az") {
+    filteredProducts.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+  } else if (sortValue === "za") {
+    filteredProducts.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+  } else if (sortValue === "low") {
+    filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+  } else if (sortValue === "high") {
+    filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+  }
 
-  //PHÂN TRANG
   const totalItems = filteredProducts.length;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Cắt mảng sản phẩm theo trang hiện tại
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-
-  //HIỂN THỊ
   renderProducts(paginatedProducts);
   renderPagination(totalItems);
 }
 
-// 7. SỰ KIỆN CLICK TAB
+// 7. TAB & PHÂN QUYỀN
 function filterAuction(type, element) {
-  document
-    .querySelectorAll(".tab-item")
-    .forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-item").forEach((tab) => tab.classList.remove("active"));
   element.classList.add("active");
-  currentTab = type;
+  currentTab = type.toLowerCase();
   currentPage = 1;
   handleSortAndFilter();
-}
-
-// 8. SỰ KIỆN TÌM KIẾM & SORT (Reset về trang 1)
-searchInput.addEventListener("input", () => {
-  currentPage = 1;
-  handleSortAndFilter();
-});
-
-sortSelect.addEventListener("change", () => {
-  currentPage = 1;
-  handleSortAndFilter();
-});
-
-// KHI LOAD TRANG
-if (typeof products !== "undefined") {
-  handleSortAndFilter();
-} else {
-  gridContainer.innerHTML = "<p>Error: Could not load products.js</p>";
-}
-
-function showUserHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  userViews.forEach((el) => (el.style.display = "block"));
-  guestViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showGuestHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  guestViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  adminViews.forEach((el) => (el.style.display = "none"));
-}
-
-function showAdminHome() {
-  const userViews = document.querySelectorAll(".user-view");
-  const guestViews = document.querySelectorAll(".guest-view");
-  const adminViews = document.querySelectorAll(".admin-view");
-  adminViews.forEach((el) => (el.style.display = "block"));
-  userViews.forEach((el) => (el.style.display = "none"));
-  guestViews.forEach((el) => (el.style.display = "none"));
 }
 
 function showShit(Auth) {
-  if (Auth === -1) {
-    showAdminHome();
-  } else if (Auth === 1) {
-    showUserHome();
-  } else {
-    showGuestHome();
-  }
+  const userViews = document.querySelectorAll(".user-view");
+  const guestViews = document.querySelectorAll(".guest-view");
+  const adminViews = document.querySelectorAll(".admin-view");
+  
+  const hideAll = () => {
+      [userViews, guestViews, adminViews].forEach(nodes => nodes.forEach(el => el.style.display = "none"));
+  };
+  hideAll();
+  
+  if (Auth == -1) adminViews.forEach(el => el.style.display = "block");
+  else if (Auth == 1) userViews.forEach(el => el.style.display = "block");
+  else guestViews.forEach(el => el.style.display = "block");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let Auth = auth;
-  showShit(Auth);
+  showShit(localStorage.getItem("auth"));
+  fetchProducts(); 
 });
+
+searchInput.addEventListener("input", () => { currentPage = 1; handleSortAndFilter(); });
+sortSelect.addEventListener("change", () => { currentPage = 1; handleSortAndFilter(); });

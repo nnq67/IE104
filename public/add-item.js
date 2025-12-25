@@ -1,44 +1,51 @@
-// Dữ liệu mẫu dựa trên danh sách bạn gửi (Nếu API chưa chạy, nó sẽ dùng tạm danh sách này)
-let categories = [
-    { id: "C01", name: "Electronics" }, { id: "C02", name: "Collectibles" },
-    { id: "C03", name: "Books" }, { id: "C04", name: "Art" },
-    { id: "C05", name: "Jewelry" }, { id: "C06", name: "Sports Memorabilia" },
-    { id: "C07", name: "Antiques" }, { id: "C08", name: "Furniture" },
-    { id: "C09", name: "Rare Items" }, { id: "C10", name: "Fashion" },
-    { id: "C11", name: "Photography" }, { id: "C12", name: "Comics" },
-    { id: "C13", name: "Toys" }, { id: "C14", name: "Musical Instruments" },
-    { id: "C15", name: "Home & Garden" }, { id: "C16", name: "Watches" },
-    { id: "C17", name: "Historical Documents" }, { id: "C18", name: "Wine & Spirits" },
-    { id: "C19", name: "Coins & Stamps" }, { id: "C20", name: "Movies & TV" },
-    { id: "C21", name: "Pet Supplies" }, { id: "C22", name: "Health & Beauty" },
-    { id: "C23", name: "Crafts" }, { id: "C24", name: "Video Games" },
-    { id: "C25", name: "Automotive" }, { id: "C26", name: "Industrial" },
-    { id: "C27", name: "Home Decor" }, { id: "C28", name: "Outdoor Gear" },
-    { id: "C29", name: "Science Equipment" }, { id: "C30", name: "Food & Beverage" }
-];
+// Cấu hình URL cơ sở (Sửa port 3000 nếu server của bạn chạy port khác)
+const BASE_URL = 'http://localhost:3000'; 
 
-// Hàm hiển thị danh sách lên Modal
+let categories = []; 
+
+/**
+ * 1. TẢI DANH MỤC
+ */
+async function loadCategories() {
+    try {
+        // Dùng URL tuyệt đối để tránh lỗi kết nối khi dùng Live Server
+        const res = await fetch(`${BASE_URL}/api/categories`); 
+        if (!res.ok) throw new Error("Server trả về lỗi");
+
+        const rawCategories = await res.json();
+        
+        categories = rawCategories.sort((a, b) => {
+            const numA = parseInt(a.id.replace(/\D/g, '')) || 0;
+            const numB = parseInt(b.id.replace(/\D/g, '')) || 0;
+            return numA - numB;
+        });
+        console.log("Categories loaded:", categories);
+    } catch (error) {
+        console.error("Lỗi kết nối API categories:", error);
+    }
+}
+
+/**
+ * 2. HIỂN THỊ MODAL (Giữ nguyên logic của bạn)
+ */
 window.showCategoryModal = function() {
     const categoryList = document.getElementById('categoryList');
-    categoryList.innerHTML = ''; // Xóa trắng danh sách cũ
+    if (!categoryList) return;
+    categoryList.innerHTML = ''; 
+    categoryList.style.display = "grid";
+    categoryList.style.gridTemplateColumns = "repeat(auto-fill, minmax(180px, 1fr))";
+    categoryList.style.gap = "10px";
 
-    // Hiển thị danh sách categories
     categories.forEach(cat => {
         const li = document.createElement('li');
-        li.style.padding = "10px";
-        li.style.borderBottom = "1px solid #eee";
-        li.style.cursor = "pointer";
-        li.innerHTML = `<strong>${cat.id}</strong> - ${cat.name}`;
-        
-        // Khi click vào một dòng
+        li.style = `list-style:none; padding:10px; border:1px solid #ddd; border-radius:6px; cursor:pointer; background:#fff;`;
+        li.innerHTML = `<b style="color:#007bff">${cat.id}</b> - ${cat.name}`;
         li.onclick = function() {
-            document.getElementById('categoryId').value = cat.id; // Điền ID vào input
-            closeCategoryModal(); // Đóng modal
+            document.getElementById('categoryId').value = cat.id;
+            closeCategoryModal();
         };
-        
         categoryList.appendChild(li);
     });
-
     document.getElementById('categoryModal').style.display = 'block';
 }
 
@@ -46,54 +53,61 @@ window.closeCategoryModal = function() {
     document.getElementById('categoryModal').style.display = 'none';
 }
 
+/**
+ * 3. HÀM THÊM SẢN PHẨM (Sửa lỗi kết nối và xử lý dữ liệu)
+ */
 async function addItem() {
-    console.log("Nút Add đã được bấm!"); // Để kiểm tra xem hàm có chạy không
+    console.log("Đang gửi yêu cầu thêm sản phẩm...");
 
-    // 1. Lấy dữ liệu từ đúng các ID trong HTML của bạn
-    const name = document.getElementById('name').value.trim();
-    const owner = document.getElementById('owner').value.trim();
-    const descriptionDetail = document.getElementById('descriptionDetail').value.trim(); // Phải đúng ID này
-    const baseBid = Number(document.getElementById('baseBid').value);
-    const timeStart = document.getElementById('timeStart').value;
-    const timeEnd = document.getElementById('timeEnd').value;
-    const imageUrl = document.getElementById('imageUrl').value.trim();
-    const categoryId = document.getElementById('categoryId').value.trim();
+    // Hàm phụ để lấy giá trị an toàn
+    const getVal = (id) => document.getElementById(id)?.value?.trim() || "";
 
-    // 2. Kiểm tra các trường bắt buộc
-    if (!name || !owner || !baseBid || !categoryId) {
-        alert('Vui lòng điering đầy đủ: Tên, Người bán, Giá gốc và Danh mục!');
+    const name = getVal('name');
+    const owner = getVal('owner');
+    const descriptionDetail = getVal('descriptionDetail');
+    const baseBid = getVal('baseBid');
+    const timeStart = getVal('timeStart');
+    const timeEnd = getVal('timeEnd');
+    const imageUrl = getVal('imageUrl');
+    const categoryId = getVal('categoryId');
+
+    if (!name || !owner || !baseBid || !categoryId || !timeStart || !timeEnd) {
+        alert('Vui lòng điền đầy đủ các trường bắt buộc (*)');
         return;
     }
 
-    // 3. Chuẩn bị dữ liệu gửi đi (Mapping khớp với Model của bạn)
     const data = {
-        description: name, 
-        sellerId: owner, 
-        startPrice: baseBid, 
-        startTime: timeStart ? new Date(timeStart).toISOString() : null,
-        endTime: timeEnd ? new Date(timeEnd).toISOString() : null,
-        imageUrl: imageUrl || null, 
-        descriptionDetail: descriptionDetail || null, 
-        categoryId: categoryId 
+        description: name,
+        sellerId: owner,
+        startPrice: parseFloat(baseBid),
+        startTime: new Date(timeStart).toISOString(),
+        endTime: new Date(timeEnd).toISOString(),
+        imageUrl: imageUrl || "images/placeholder.jpg",
+        descriptionDetail: descriptionDetail,
+        categoryId: categoryId
     };
 
     try {
-        // Gửi yêu cầu đến API (Lưu ý: /api/items hay /items tùy theo server.js của bạn)
-        const res = await fetch('/api/items', { 
+        // Gửi đến URL tuyệt đối của Server
+        const res = await fetch(`${BASE_URL}/api/items`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
 
+        const result = await res.json();
+
         if (res.ok) {
-            alert('Sản phẩm đã được thêm thành công!');
-            window.location.href = 'database.html'; // Chuyển về trang database như bạn đặt ở nút Cancel
+            alert(`Thành công! Trạng thái: ${result.type?.toUpperCase()}`);
+            window.location.href = 'database.html'; 
         } else {
-            const errorText = await res.text();
-            alert(`Lỗi từ Server: ${res.status} - ${errorText}`);
+            alert('Lỗi từ Server: ' + (result.error || "Không xác định"));
         }
     } catch (error) {
-        console.error('Lỗi Fetch:', error);
-        alert('Không thể kết nối đến Server. Vui lòng kiểm tra lại!');
+        // Lỗi này xảy ra khi Fetch không tới được Server (Sai URL, Server chưa chạy, chặn CORS)
+        console.error('Lỗi kết nối Fetch:', error);
+        alert('KHÔNG THỂ KẾT NỐI ĐẾN SERVER! Hãy kiểm tra:\n1. Server Node.js đã chạy chưa?\n2. Port có phải là 3000 không?\n3. Kiểm tra tab Network trong F12.');
     }
 }
+
+document.addEventListener("DOMContentLoaded", loadCategories);
