@@ -10,7 +10,6 @@ const userData = {
 };
 
 function updateUI() {
-  // Text displays
   document
     .querySelectorAll(".sync-firstname")
     .forEach((el) => (el.textContent = userData.firstname));
@@ -29,12 +28,10 @@ function updateUI() {
     .querySelectorAll(".sync-address")
     .forEach((el) => (el.textContent = userData.address));
 
-  // Images
   document
     .querySelectorAll(".sync-avatar")
     .forEach((el) => (el.src = userData.avatar));
 
-  // LOGIC ADMIN CHECK
   const adminBtn = document.getElementById("btn-admin-db");
   if (userData.role === "admin") {
     adminBtn.style.display = "inline-block";
@@ -43,15 +40,12 @@ function updateUI() {
   }
 }
 
-// --- LOAD TAB ---
 function loadTab(evt, fileName) {
-  // Reset active class
   var tablinks = document.getElementsByClassName("tab-link");
   for (var i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
 
-  // Set active if clicked
   if (evt) {
     evt.currentTarget.className += " active";
   } else {
@@ -76,12 +70,10 @@ function loadTab(evt, fileName) {
     .catch((error) => console.error("Error loading tab:", error));
 }
 
-// --- RENDER TRANSACTION LIST ---
 function renderTransactionHistory() {
   const listContainer = document.getElementById("transaction-list");
   if (!listContainer || typeof products === "undefined") return;
 
-  // Lấy sản phẩm đã kết thúc làm dữ liệu đơn hàng
   const endedProducts = products.filter((p) => p.type === "ended").slice(0, 5);
 
   let html = "";
@@ -110,7 +102,6 @@ function renderTransactionHistory() {
   listContainer.innerHTML = html;
 }
 
-// --- LOAD & RENDER ORDER DETAIL ---
 function loadOrderDetail(productId, orderId, status) {
   fetch("order-detail.html")
     .then((response) => response.text())
@@ -157,7 +148,6 @@ function loadOrderDetail(productId, orderId, status) {
     });
 }
 
-// --- RENDER BIDDING HISTORY ---
 function renderBiddingHistory() {
   const listContainer = document.getElementById("bidding-list");
   if (!listContainer || typeof products === "undefined") return;
@@ -202,7 +192,6 @@ function renderBiddingHistory() {
   listContainer.innerHTML = html;
 }
 
-// Khởi tạo
 document.addEventListener("DOMContentLoaded", function () {
   loadTab(null, "transaction-history.html");
   updateUI();

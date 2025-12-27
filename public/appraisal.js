@@ -1,9 +1,13 @@
-const API_KEY = "API"; 
+const API_KEY = "API";
 
 const GEN_MODEL = "gemini-flash-latest";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEN_MODEL}:generateContent?key=${API_KEY}`;
 
-async function generateAuctionHeadlineWithGemini(itemName, itemAuthor, desiredPrice) {
+async function generateAuctionHeadlineWithGemini(
+  itemName,
+  itemAuthor,
+  desiredPrice
+) {
   const prompt = `
     Viết một đoạn miêu tả sản phẩm đấu giá (description) xúc tích, chuyên nghiệp, hấp dẫn bằng tiếng Anh cho:
     Item: ${itemName}
@@ -13,7 +17,7 @@ async function generateAuctionHeadlineWithGemini(itemName, itemAuthor, desiredPr
   `;
 
   const requestBody = {
-    contents: [{ parts: [{ text: prompt }] }]
+    contents: [{ parts: [{ text: prompt }] }],
   };
 
   console.log("Sending a request to the AI...", requestBody);
@@ -21,7 +25,7 @@ async function generateAuctionHeadlineWithGemini(itemName, itemAuthor, desiredPr
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(requestBody),
   });
@@ -29,11 +33,15 @@ async function generateAuctionHeadlineWithGemini(itemName, itemAuthor, desiredPr
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     console.error("Error data:", errorData);
-    throw new Error(`API Error (${response.status}): ${errorData.error?.message || response.statusText}`);
+    throw new Error(
+      `API Error (${response.status}): ${
+        errorData.error?.message || response.statusText
+      }`
+    );
   }
 
   const data = await response.json();
-  
+
   if (!data.candidates || data.candidates.length === 0) {
     throw new Error("The AI ​​returned no results. (Blocked or Empty).");
   }
@@ -45,7 +53,7 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
   const itemName = document.getElementById("itemName").value;
   const itemAuthor = document.getElementById("itemAuthor").value;
   const itemPrice = document.getElementById("itemPrice").value;
-  
+
   const resultDiv = document.getElementById("result");
   const headlineText = document.getElementById("headlineText");
 
@@ -64,23 +72,24 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
   headlineText.innerHTML = "<i>Please wait...</i>";
 
   try {
-    const aiHeadline = await generateAuctionHeadlineWithGemini(itemName, itemAuthor, itemPrice);
-    
+    const aiHeadline = await generateAuctionHeadlineWithGemini(
+      itemName,
+      itemAuthor,
+      itemPrice
+    );
+
     headlineText.innerText = aiHeadline;
     headlineText.style.fontWeight = "normal";
     headlineText.style.fontSize = "1.2em";
-    
   } catch (error) {
     console.error(error);
     headlineText.innerHTML = `<span style="color: red; font-weight: bold;">LỖI: ${error.message}</span>`;
   } finally {
-    // Khôi phục nút bấm
     btn.innerText = originalBtnText;
     btn.disabled = false;
   }
 });
 
-// Logic xử lý ảnh
 const imageInput = document.getElementById("imageInput");
 const outputImage = document.getElementById("outputImage");
 

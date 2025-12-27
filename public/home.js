@@ -10,15 +10,12 @@ function getStatusInfo(product) {
   };
 
   if (product.type === "current") {
-    // Đang diễn ra => Hiển thị khi nào KẾT THÚC
     color = "green";
     labelText = `auction ends in: ${formatD(product.endTime)} GMT+8`;
   } else if (product.type === "upcoming") {
-    // Sắp diễn ra => Hiển thị khi nào BẮT ĐẦU
     color = "orange";
     labelText = `auction start in: ${formatD(product.startTime)} GMT+8`;
   } else {
-    // Đã kết thúc
     color = "red";
     labelText = "This auction has ended";
   }
@@ -116,24 +113,18 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const distance = earliestTime - now;
 
-  // 2. The Math Logic
-  // Hours: Total milliseconds divided by (ms * sec * min)
   const hours = Math.floor(distance / (1000 * 60 * 60));
 
-  // Minutes: Remainder of hours, divided by (ms * sec)
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-  // Seconds: Remainder of minutes, divided by (ms)
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // 3. Update the UI
   document.getElementById("hour").innerHTML = hours;
   document.getElementById("minute").innerHTML =
     ":" + minutes.toString().padStart(2, "0");
   document.getElementById("second").innerHTML =
     ":" + seconds.toString().padStart(2, "0");
 
-  // Handle expiration
   if (distance < 0) {
     clearInterval(timer);
     document.getElementById("hour").innerHTML = "0";
